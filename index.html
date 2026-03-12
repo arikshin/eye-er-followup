@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="מיון עיניים">
+<meta name="application-name" content="מיון עיניים">
+<meta name="theme-color" content="#0d2340">
+<link rel="manifest" id="pwaManifest">
+<link rel="apple-touch-icon" id="appleIcon" sizes="180x180">
 <title>ביקורות מתוכננות – מיון עיניים</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -482,6 +488,112 @@ document.getElementById('dutyModal').addEventListener('click',e=>{ if(e.target.i
   render();
   // Refresh every 60s to pick up other users' changes
   setInterval(async()=>{ try{ await loadDB(); render(); }catch(e){} }, 60000);
+})();
+</script>
+
+<script>
+// ===================================================
+// PWA — Generate icon + manifest dynamically
+// ===================================================
+(function() {
+  function roundRect(ctx, x, y, w, h, r) {
+    r = r || 0;
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+    ctx.lineTo(x+w, y+h-r);
+    ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+    ctx.lineTo(x+r, y+h);
+    ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+    ctx.lineTo(x, y+r);
+    ctx.quadraticCurveTo(x, y, x+r, y);
+    ctx.closePath();
+  }
+
+  const S = 512;
+  const cv = document.createElement('canvas');
+  cv.width = cv.height = S;
+  const ctx = cv.getContext('2d');
+
+  // Background
+  const g = ctx.createLinearGradient(0,0,S,S);
+  g.addColorStop(0,'#0d2340'); g.addColorStop(1,'#1a4a7a');
+  ctx.fillStyle = g;
+  roundRect(ctx, 0, 0, S, S, S*0.20); ctx.fill();
+
+  // ── Calendar (upper-left area) ──
+  const CX=S*0.36, CY=S*0.36, CW=S*0.48, CH=S*0.42, CR=S*0.05;
+  // body
+  ctx.fillStyle='rgba(255,255,255,0.10)';
+  ctx.strokeStyle='rgba(255,255,255,0.88)'; ctx.lineWidth=S*0.034;
+  roundRect(ctx, CX-CW/2, CY-CH/2, CW, CH, CR); ctx.fill(); ctx.stroke();
+  // header
+  ctx.save();
+  ctx.beginPath();
+  roundRect(ctx, CX-CW/2, CY-CH/2, CW, CH*0.28, CR);
+  ctx.clip();
+  ctx.fillStyle='#2e7fc9';
+  ctx.fillRect(CX-CW/2, CY-CH/2, CW, CH*0.28);
+  ctx.restore();
+  // rings
+  ctx.strokeStyle='white'; ctx.lineWidth=S*0.028; ctx.lineCap='round';
+  [-0.18,0.18].forEach(function(off){
+    var rx=CX+off*CW, ry=CY-CH/2;
+    ctx.beginPath(); ctx.moveTo(rx,ry-S*0.04); ctx.lineTo(rx,ry+S*0.04); ctx.stroke();
+  });
+  // grid dots
+  ctx.fillStyle='rgba(255,255,255,0.80)';
+  var dr=S*0.025, gx0=CX-CW*0.28, gy0=CY-CH*0.04, gsx=CW*0.28, gsy=CH*0.27;
+  [[0,1],[0,2],[1,0],[1,1],[1,2]].forEach(function(rc){
+    ctx.beginPath(); ctx.arc(gx0+rc[1]*gsx, gy0+rc[0]*gsy, dr, 0, Math.PI*2); ctx.fill();
+  });
+
+  // ── Eye (lower-right area) ──
+  var EX=S*0.63, EY=S*0.66, EW=S*0.50, EH=S*0.20;
+  // lids
+  ctx.strokeStyle='white'; ctx.lineWidth=S*0.036; ctx.lineJoin='round';
+  ctx.beginPath();
+  ctx.moveTo(EX-EW/2,EY);
+  ctx.bezierCurveTo(EX-EW/2,EY-EH*1.1, EX+EW/2,EY-EH*1.1, EX+EW/2,EY);
+  ctx.bezierCurveTo(EX+EW/2,EY+EH*1.1, EX-EW/2,EY+EH*1.1, EX-EW/2,EY);
+  ctx.closePath(); ctx.stroke();
+  // iris
+  ctx.beginPath(); ctx.arc(EX,EY,EH*0.75,0,Math.PI*2);
+  ctx.fillStyle='#2e7fc9'; ctx.fill();
+  ctx.strokeStyle='white'; ctx.lineWidth=S*0.028; ctx.stroke();
+  // pupil
+  ctx.beginPath(); ctx.arc(EX,EY,EH*0.34,0,Math.PI*2);
+  ctx.fillStyle='#0a1a30'; ctx.fill();
+  // shine
+  ctx.beginPath(); ctx.arc(EX+EH*0.24,EY-EH*0.24,EH*0.13,0,Math.PI*2);
+  ctx.fillStyle='rgba(255,255,255,0.85)'; ctx.fill();
+
+  var iconUrl = cv.toDataURL('image/png');
+
+  // Apple touch icon
+  var ai=document.getElementById('appleIcon');
+  if(ai) ai.href=iconUrl;
+
+  // Web manifest (blob URL)
+  var manifest={
+    name:'ביקורות מיון עיניים',
+    short_name:'מיון עיניים',
+    description:'ניהול ביקורות מתוכננות במיון עיניים',
+    start_url:'./',
+    display:'standalone',
+    background_color:'#0d2340',
+    theme_color:'#0d2340',
+    orientation:'portrait',
+    lang:'he',
+    icons:[
+      {src:iconUrl,sizes:'512x512',type:'image/png',purpose:'any maskable'},
+      {src:iconUrl,sizes:'192x192',type:'image/png',purpose:'any maskable'}
+    ]
+  };
+  var blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
+  var ml=document.getElementById('pwaManifest');
+  if(ml) ml.href=URL.createObjectURL(blob);
 })();
 </script>
 </body>
