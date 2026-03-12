@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>ביקורות מתוכננות – מיון עיניים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#0d2340; --blue:#1a4a7a; --sky:#2e7fc9; --ice:#e8f2fb;
+    --slate:#8097b1; --fog:#f2f5f9; --orange:#e8742a; --amber:#f5a623;
+    --danger:#d94040; --gray:#4a5568; --border:#d4e2ef;
+    --shadow:0 2px 16px rgba(13,35,64,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Heebo',sans-serif;background:var(--fog);color:var(--navy);min-height:100vh;font-size:15px}
+
+  /* LOADING */
+  #loadingScreen{position:fixed;inset:0;background:var(--fog);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+  .spinner{width:44px;height:44px;border:4px solid var(--border);border-top-color:var(--sky);border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  #loadingScreen p{font-size:14px;color:var(--slate);font-weight:500}
+
+  /* HEADER */
+  header{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%);color:white;padding:16px 20px 14px;position:sticky;top:0;z-index:100;box-shadow:0 3px 20px rgba(13,35,64,.35)}
+  .header-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px}
+  .logo-wrap{width:46px;height:46px;background:rgba(255,255,255,.12);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .header-text h1{font-size:17px;font-weight:700;letter-spacing:-.3px}
+  .header-text p{font-size:12px;opacity:.65;margin-top:2px}
+  .header-actions{margin-right:auto;display:flex;gap:8px;align-items:center}
+  .btn-gear{background:rgba(255,255,255,.15);border:none;border-radius:10px;width:42px;height:42px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:white;font-size:18px}
+  .btn-add{background:var(--orange);color:white;border:none;border-radius:10px;padding:9px 16px;font-family:'Heebo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .2s}
+  .btn-add:hover{background:#d0651e}
+
+  /* MAIN */
+  main{max-width:900px;margin:0 auto;padding:18px 14px 80px}
+
+  /* OVERVIEW */
+  .overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+  .ov-card{background:white;border-radius:14px;padding:14px 12px;box-shadow:var(--shadow);text-align:center}
+  .ov-card .ov-num{font-size:28px;font-weight:800;line-height:1}
+  .ov-card .ov-label{font-size:11px;color:var(--slate);margin-top:4px}
+  .ov-card.orange .ov-num{color:var(--orange)}
+  .ov-card.blue .ov-num{color:var(--sky)}
+  .ov-card.navy .ov-num{color:var(--navy)}
+
+  /* DATE STRIP */
+  .date-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:18px;scrollbar-width:none}
+  .date-scroll::-webkit-scrollbar{display:none}
+  .date-chip{flex-shrink:0;background:white;border:2px solid var(--border);border-radius:12px;padding:8px 12px;cursor:pointer;text-align:center;transition:all .2s;min-width:62px}
+  .date-chip .day-name{font-size:11px;color:var(--slate);font-weight:500}
+  .date-chip .day-num{font-size:20px;font-weight:700;line-height:1.1}
+  .date-chip .dot-row{display:flex;justify-content:center;gap:3px;margin-top:4px;min-height:7px}
+  .date-chip .dot{width:7px;height:7px;border-radius:50%}
+  .date-chip.today{border-color:var(--sky);background:var(--ice)}
+  .date-chip.today .day-num{color:var(--sky)}
+  .load-mini{height:4px;border-radius:2px;margin-top:5px;background:var(--border);overflow:hidden}
+  .load-mini-fill{height:100%;border-radius:2px}
+
+  /* DAY PANEL */
+  .day-panel{background:white;border-radius:16px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px}
+  .day-panel-header{background:linear-gradient(90deg,var(--navy) 0%,var(--blue) 100%);color:white;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+  .day-panel-header h3{font-size:15px;font-weight:700}
+  .day-panel-header .meta{font-size:12px;opacity:.7;margin-top:2px}
+  .dph-right{text-align:center}
+  .dph-count{font-size:22px;font-weight:800;background:rgba(255,255,255,.15);border-radius:10px;width:46px;height:38px;display:flex;align-items:center;justify-content:center}
+  .dph-toggle{font-size:16px;margin-top:4px;opacity:.7}
+  .day-panel-body{padding:14px;display:none}
+  .day-panel-body.open{display:block}
+  .load-bar-wrap{margin-bottom:16px}
+  .load-bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--slate);margin-bottom:5px}
+  .load-bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden}
+  .load-bar-fill{height:100%;border-radius:5px;transition:width .5s}
+  .load-low{background:#3bbf7a} .load-medium{background:var(--amber)} .load-high{background:var(--orange)} .load-overload{background:var(--danger)}
+
+  /* DUTY ROW */
+  .duty-row{background:var(--ice);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-size:13px}
+  .duty-icon{width:32px;height:32px;background:var(--sky);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .duty-row .dlabel{color:var(--slate);font-size:12px}
+  .duty-row .dname{font-weight:600;color:var(--navy)}
+
+  /* PATIENT CARD */
+  .patient-card{border:1.5px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:10px;background:white;transition:box-shadow .2s}
+  .patient-card:hover{box-shadow:var(--shadow)}
+  .pc-name{font-weight:700;font-size:15px}
+  .pc-id{font-size:12px;color:var(--slate);margin-top:2px}
+  .pc-reason{margin-top:8px;background:var(--fog);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--gray)}
+  .reason-label{font-weight:600;color:var(--navy);margin-bottom:3px;font-size:12px}
+  .pc-tests{margin-top:8px;display:flex;flex-wrap:wrap;gap:5px}
+  .test-tag{background:var(--ice);color:var(--sky);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:600}
+  .pc-footer{margin-top:8px;display:flex;align-items:center}
+  .pc-resident{font-size:11px;color:var(--slate)}
+  .pc-delete{margin-right:auto;background:none;border:none;color:#ccc;cursor:pointer;font-size:16px;padding:2px 6px;transition:color .2s}
+  .pc-delete:hover{color:var(--danger)}
+  .empty-state{text-align:center;padding:30px 0;color:var(--slate)}
+  .empty-state svg{width:40px;height:40px;opacity:.35;margin-bottom:10px}
+  .empty-state p{font-size:14px}
+
+  /* MODALS */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+  .modal-overlay.open{opacity:1;pointer-events:all}
+  .modal{background:white;border-radius:22px 22px 0 0;padding:24px 20px 32px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;transform:translateY(50px);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:0 -8px 40px rgba(0,0,0,.2)}
+  .modal-overlay.open .modal{transform:translateY(0)}
+  .modal h2{font-size:18px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+  .modal-drag{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 20px}
+  .form-group{margin-bottom:16px}
+  .form-group label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px}
+  .form-group label span{color:var(--orange)}
+  .form-control{width:100%;border:2px solid var(--border);border-radius:10px;padding:11px 13px;font-family:'Heebo',sans-serif;font-size:14px;color:var(--navy);outline:none;transition:border-color .2s;background:white;-webkit-appearance:none}
+  .form-control:focus{border-color:var(--sky)}
+  .dlp{margin-top:6px;font-size:12px;padding:6px 10px;border-radius:8px;display:none}
+  .dlp.show{display:block}
+  .dlp.lp-low{background:#edfaf3;color:#2d8653}
+  .dlp.lp-medium{background:#fff8e6;color:#b07d00}
+  .dlp.lp-high{background:#fff1e6;color:#c04a00}
+  .dlp.lp-overload{background:#fdeaea;color:#a80000}
+  .tests-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .test-check{display:flex;align-items:center;gap:8px;border:2px solid var(--border);border-radius:10px;padding:9px 12px;cursor:pointer;transition:all .15s;font-size:13px;font-weight:500;user-select:none}
+  .test-check input{display:none}
+  .test-check.checked{border-color:var(--sky);background:var(--ice);color:var(--sky)}
+  .cb-box{width:18px;height:18px;border:2px solid var(--border);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .15s}
+  .test-check.checked .cb-box{background:var(--sky);border-color:var(--sky);color:white}
+  .btn-submit{width:100%;background:linear-gradient(135deg,var(--blue) 0%,var(--sky) 100%);color:white;border:none;border-radius:12px;padding:14px;font-family:'Heebo',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px;transition:opacity .2s}
+  .btn-submit:disabled{opacity:.6;cursor:not-allowed}
+  .btn-cancel{width:100%;background:var(--fog);color:var(--gray);border:none;border-radius:12px;padding:12px;font-family:'Heebo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-top:10px}
+
+  .duty-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;padding:20px}
+  .duty-modal-overlay.open{opacity:1;pointer-events:all}
+  .duty-modal{background:white;border-radius:18px;padding:24px;width:100%;max-width:460px;max-height:88vh;overflow-y:auto;box-shadow:0 8px 40px rgba(13,35,64,.18);transform:scale(.95);transition:transform .25s}
+  .duty-modal-overlay.open .duty-modal{transform:scale(1)}
+  .duty-modal h2{font-size:17px;font-weight:800;margin-bottom:8px}
+  .duty-modal p{font-size:13px;color:var(--slate);margin-bottom:16px}
+  .duty-entry{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .duty-entry label{font-size:13px;font-weight:600;min-width:85px;flex-shrink:0;color:var(--navy)}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:white;padding:12px 22px;border-radius:30px;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.3);z-index:999;transition:transform .3s,opacity .3s;opacity:0;white-space:nowrap}
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+  @media(min-width:600px){main{padding:24px 24px 80px}.tests-grid{grid-template-columns:1fr 1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div id="loadingScreen">
+  <div class="spinner"></div>
+  <p id="loadMsg">טוען נתונים מהענן…</p>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <svg viewBox="0 0 60 40" fill="none">
+        <ellipse cx="30" cy="20" rx="22" ry="13" stroke="white" stroke-width="2.2" fill="none"/>
+        <circle cx="30" cy="20" r="5.5" fill="white" opacity=".9"/>
+        <circle cx="30" cy="20" r="2.5" fill="#2e7fc9"/>
+        <line x1="30" y1="3" x2="30" y2="8" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity=".6"/>
+        <line x1="30" y1="32" x2="30" y2="37" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity=".6"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>ביקורות מתוכננות</h1>
+      <p>מיון עיניים · שבועיים קרובים</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-gear" onclick="openDutyModal()" title="עדכון שיבוצים">⚙️</button>
+      <button class="btn-add" onclick="openAddModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        הזמן ביקורת
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="overview-grid">
+    <div class="ov-card orange"><div class="ov-num" id="totalToday">—</div><div class="ov-label">ביקורות היום</div></div>
+    <div class="ov-card blue"><div class="ov-num" id="totalWeek">—</div><div class="ov-label">השבוע הקרוב</div></div>
+    <div class="ov-card navy"><div class="ov-num" id="totalTwo">—</div><div class="ov-label">בשבועיים הקרובים</div></div>
+  </div>
+  <div class="date-scroll" id="dateStrip"></div>
+  <div id="dayPanels"></div>
+</main>
+
+<!-- ADD MODAL -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <div class="modal-drag"></div>
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="22" height="22"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+      הזמנת ביקורת חדשה
+    </h2>
+    <div class="form-group">
+      <label>תאריך ביקורת <span>*</span></label>
+      <select class="form-control" id="f_date" onchange="updateLoadPreview()"><option value="">— בחר תאריך —</option></select>
+      <div class="dlp" id="loadPreview"></div>
+    </div>
+    <div class="form-group">
+      <label>שם המטופל <span>*</span></label>
+      <input class="form-control" type="text" id="f_name" placeholder="שם פרטי ושם משפחה">
+    </div>
+    <div class="form-group">
+      <label>מספר תעודת זהות <span>*</span></label>
+      <input class="form-control" type="text" id="f_id" inputmode="numeric" placeholder="9 ספרות">
+    </div>
+    <div class="form-group">
+      <label>סיבת הביקורת <span>*</span></label>
+      <textarea class="form-control" id="f_reason" rows="2" placeholder="תיאור קצר של הפתולוגיה / הסיבה"></textarea>
+    </div>
+    <div class="form-group">
+      <label>בדיקות נדרשות</label>
+      <div class="tests-grid" id="testsGrid"></div>
+    </div>
+    <div class="form-group">
+      <label>שם המתמחה המזמין</label>
+      <input class="form-control" type="text" id="f_resident" placeholder="שמך">
+    </div>
+    <button class="btn-submit" id="btnSubmit" onclick="submitPatient()">שמור ביקורת</button>
+    <button class="btn-cancel" onclick="closeAddModal()">ביטול</button>
+  </div>
+</div>
+
+<!-- DUTY MODAL -->
+<div class="duty-modal-overlay" id="dutyModal">
+  <div class="duty-modal">
+    <h2>⚙️ שיבוצי תורנות מיון</h2>
+    <p>מתמחה משובץ למיון בשעות הבוקר (ניתן לעדכן בכל עת)</p>
+    <div id="dutyList"></div>
+    <button class="btn-submit" id="btnSaveDuty" onclick="saveDuty()">שמור שיבוצים</button>
+    <button class="btn-cancel" onclick="closeDutyModal()">סגור</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// CONFIG
+const BIN_ID  = '69b2e45ab7ec241ddc625227';
+const BIN_KEY = '$2a$10$.g2GAlRZVdB6z7SS/WMrOO5rdFegQIq5EHyMyD/KhIO53S4Unl3MW';
+const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+const TESTS = ['בדיקת רופא (ללא הרחבה)','הרחבת אישונים','OCT','Optos','שדות ראייה','RAPD','FA (אנגיוגרפיה)'];
+const THR = { low:3, medium:6, high:9 };
+const HE_DAYS = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+const HE_MON  = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
+
+// CLOUD LAYER
+let DB = { patients:[], duty:{} };
+
+async function loadDB() {
+  const r = await fetch(BIN_URL+'/latest', { headers:{'X-Master-Key':BIN_KEY} });
+  if (!r.ok) throw new Error(r.status);
+  const j = await r.json();
+  DB = j.record;
+  if (!DB.patients) DB.patients = [];
+  if (!DB.duty)     DB.duty     = {};
+}
+
+async function saveDB() {
+  const r = await fetch(BIN_URL, {
+    method:'PUT',
+    headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
+    body: JSON.stringify(DB)
+  });
+  if (!r.ok) throw new Error(r.status);
+}
+
+// DATE HELPERS
+function today0() { const d=new Date(); d.setHours(0,0,0,0); return d; }
+function dKey(d)  { return d.toISOString().slice(0,10); }
+function dAdd(d,n){ const r=new Date(d); r.setDate(r.getDate()+n); return r; }
+function dFull(d) { return `${d.getDate()} ${HE_MON[d.getMonth()]} ${d.getFullYear()}`; }
+function dDay(d)  { return `יום ${HE_DAYS[d.getDay()]}`; }
+function get14()  { const t=today0(); return Array.from({length:14},(_,i)=>dAdd(t,i)); }
+
+// LOAD HELPERS
+function cnt(key) { return DB.patients.filter(p=>p.date===key).length; }
+function lClass(c){ return c<=0?'load-low':c<=THR.low?'load-low':c<=THR.medium?'load-medium':c<=THR.high?'load-high':'load-overload'; }
+function lLabel(c){ if(c===0)return'אין ביקורות'; if(c<=THR.low)return`עומס נמוך (${c})`; if(c<=THR.medium)return`עומס בינוני (${c})`; if(c<=THR.high)return`עומס גבוה (${c})`; return`עומס גבוה מאוד! (${c})`; }
+function lPct(c)  { return Math.min(100,(c/10)*100); }
+function lpCls(c) { return c<=0||c<=THR.low?'lp-low':c<=THR.medium?'lp-medium':c<=THR.high?'lp-high':'lp-overload'; }
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// RENDER
+function render() {
+  const dates=get14(), t=today0(), tk=dKey(t);
+  const wk=dates.slice(0,7).map(dKey), ak=dates.map(dKey);
+
+  document.getElementById('totalToday').textContent = DB.patients.filter(p=>p.date===tk).length;
+  document.getElementById('totalWeek').textContent  = DB.patients.filter(p=>wk.includes(p.date)).length;
+  document.getElementById('totalTwo').textContent   = DB.patients.filter(p=>ak.includes(p.date)).length;
+
+  // Strip
+  const strip = document.getElementById('dateStrip');
+  strip.innerHTML='';
+  dates.forEach(d=>{
+    const k=dKey(d), c=cnt(k), isTd=(k===tk);
+    const dc=c===0?'#ddd':c<=3?'#3bbf7a':c<=6?'#f5a623':c<=9?'#e8742a':'#d94040';
+    const dots=c>0?Array.from({length:Math.min(c,5)},()=>`<div class="dot" style="background:${dc}"></div>`).join(''):'';
+    const ch=document.createElement('div');
+    ch.className='date-chip'+(isTd?' today':'');
+    ch.innerHTML=`<div class="day-name">${HE_DAYS[d.getDay()].slice(0,3)}'</div><div class="day-num">${d.getDate()}</div><div class="dot-row">${dots}</div><div class="load-mini"><div class="load-mini-fill ${lClass(c)}" style="width:${lPct(c)}%"></div></div>`;
+    ch.onclick=()=>goDay(k);
+    strip.appendChild(ch);
+  });
+
+  // Panels
+  const panels=document.getElementById('dayPanels');
+  const opens={};
+  panels.querySelectorAll('.day-panel').forEach(p=>{
+    const b=p.querySelector('.day-panel-body');
+    if(b&&b.classList.contains('open')) opens[p.id]=1;
+  });
+  panels.innerHTML='';
+  dates.forEach(d=>{
+    const k=dKey(d), c=cnt(k), pts=DB.patients.filter(p=>p.date===k);
+    const duty=DB.duty[k]||null, isTd=(k===tk), open=isTd||opens[`panel-${k}`];
+    const pHtml=pts.length===0
+      ?`<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg><p>אין ביקורות מוזמנות ליום זה</p></div>`
+      :pts.map(p=>`<div class="patient-card">
+        <div class="pc-name">${esc(p.name)}</div>
+        <div class="pc-id">ת.ז. ${esc(p.patientId)}</div>
+        ${p.reason?`<div class="pc-reason"><div class="reason-label">סיבת ביקורת</div>${esc(p.reason)}</div>`:''}
+        ${p.tests&&p.tests.length?`<div class="pc-tests">${p.tests.map(t=>`<span class="test-tag">${esc(t)}</span>`).join('')}</div>`:''}
+        <div class="pc-footer"><span class="pc-resident">הוזמן ע"י: ${esc(p.resident||'לא צוין')}</span><button class="pc-delete" onclick="delPt('${p.id}')">✕</button></div>
+      </div>`).join('');
+
+    const el=document.createElement('div');
+    el.className='day-panel'; el.id=`panel-${k}`;
+    el.innerHTML=`
+      <div class="day-panel-header" onclick="togPanel('${k}')">
+        <div>
+          <h3>${isTd?'📅 היום — ':''}${dDay(d)}, ${dFull(d)}</h3>
+          <div class="meta">${lLabel(c)}</div>
+        </div>
+        <div class="dph-right">
+          <div class="dph-count">${c}</div>
+          <div class="dph-toggle" id="tog-${k}">${open?'▲':'▼'}</div>
+        </div>
+      </div>
+      <div class="day-panel-body${open?' open':''}" id="body-${k}">
+        <div class="load-bar-wrap">
+          <div class="load-bar-label"><span>עומס צפוי</span><span>${c} ביקורות</span></div>
+          <div class="load-bar"><div class="load-bar-fill ${lClass(c)}" style="width:${lPct(c)}%"></div></div>
+        </div>
+        <div class="duty-row">
+          <div class="duty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" width="18" height="18"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          <div><div class="dlabel">מתמחה תורן (בוקר):</div><div class="dname">${duty||'—'} <span style="color:var(--orange);font-size:11px;cursor:pointer" onclick="openDutyModal()">[עדכן]</span></div></div>
+        </div>
+        ${pHtml}
+      </div>`;
+    panels.appendChild(el);
+  });
+}
+
+function togPanel(k) {
+  const b=document.getElementById(`body-${k}`), t=document.getElementById(`tog-${k}`);
+  t.textContent=b.classList.toggle('open')?'▲':'▼';
+}
+function goDay(k) {
+  const el=document.getElementById(`panel-${k}`);
+  if(!el) return;
+  const b=document.getElementById(`body-${k}`);
+  if(!b.classList.contains('open')){ b.classList.add('open'); document.getElementById(`tog-${k}`).textContent='▲'; }
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ADD MODAL
+function openAddModal() {
+  buildTests(); buildDates();
+  ['f_name','f_id','f_reason','f_resident'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('loadPreview').className='dlp';
+  document.getElementById('addModal').classList.add('open');
+}
+function closeAddModal() { document.getElementById('addModal').classList.remove('open'); }
+
+function buildTests() {
+  const g=document.getElementById('testsGrid'); g.innerHTML='';
+  TESTS.forEach(t=>{
+    const l=document.createElement('label'); l.className='test-check';
+    l.innerHTML=`<input type="checkbox" value="${esc(t)}"><div class="cb-box"></div><span>${esc(t)}</span>`;
+    l.addEventListener('click',function(e){
+      e.preventDefault();
+      const i=this.querySelector('input'); i.checked=!i.checked;
+      this.classList.toggle('checked',i.checked);
+      this.querySelector('.cb-box').textContent=i.checked?'✓':'';
+    });
+    g.appendChild(l);
+  });
+}
+function buildDates() {
+  const s=document.getElementById('f_date'); s.innerHTML='<option value="">— בחר תאריך —</option>';
+  get14().forEach(d=>{
+    const k=dKey(d), c=cnt(k);
+    const o=document.createElement('option'); o.value=k;
+    o.textContent=`${dDay(d)}, ${d.getDate()} ${HE_MON[d.getMonth()]} — ${lLabel(c)}`;
+    s.appendChild(o);
+  });
+}
+function updateLoadPreview() {
+  const k=document.getElementById('f_date').value, pv=document.getElementById('loadPreview');
+  if(!k){ pv.className='dlp'; return; }
+  const c=cnt(k); pv.className=`dlp show ${lpCls(c)}`;
+  pv.innerHTML=`<strong>${lLabel(c)}</strong> ביום שנבחר`;
+}
+
+async function submitPatient() {
+  const date=document.getElementById('f_date').value;
+  const name=document.getElementById('f_name').value.trim();
+  const pid=document.getElementById('f_id').value.trim();
+  const reason=document.getElementById('f_reason').value.trim();
+  const resident=document.getElementById('f_resident').value.trim();
+  const tests=[...document.querySelectorAll('#testsGrid input:checked')].map(i=>i.value);
+  if(!date||!name||!pid){ toast('יש למלא תאריך, שם ות.ז.'); return; }
+  const btn=document.getElementById('btnSubmit');
+  btn.disabled=true; btn.textContent='שומר…';
+  try {
+    DB.patients.push({id:Date.now().toString(),date,name,patientId:pid,reason,resident,tests,created:new Date().toISOString()});
+    await saveDB();
+    closeAddModal(); render();
+    toast(`✓ ${name} הוזמן לביקורת בהצלחה`);
+    setTimeout(()=>goDay(date),300);
+  } catch(e){ DB.patients.pop(); toast('שגיאה בשמירה — בדוק חיבור לאינטרנט'); }
+  finally{ btn.disabled=false; btn.textContent='שמור ביקורת'; }
+}
+
+async function delPt(id) {
+  if(!confirm('למחוק ביקורת זו?')) return;
+  const prev=[...DB.patients]; DB.patients=DB.patients.filter(p=>p.id!==id);
+  try{ await saveDB(); render(); toast('הביקורת נמחקה'); }
+  catch(e){ DB.patients=prev; toast('שגיאה במחיקה'); }
+}
+
+// DUTY MODAL
+function openDutyModal() {
+  const list=document.getElementById('dutyList'); list.innerHTML='';
+  get14().forEach(d=>{
+    const k=dKey(d), row=document.createElement('div'); row.className='duty-entry';
+    row.innerHTML=`<label>${HE_DAYS[d.getDay()].slice(0,3)} ${d.getDate()}/${d.getMonth()+1}</label><input class="form-control" type="text" data-key="${k}" value="${esc(DB.duty[k]||'')}" placeholder="שם מתמחה">`;
+    list.appendChild(row);
+  });
+  document.getElementById('dutyModal').classList.add('open');
+}
+function closeDutyModal() { document.getElementById('dutyModal').classList.remove('open'); }
+
+async function saveDuty() {
+  const btn=document.getElementById('btnSaveDuty');
+  btn.disabled=true; btn.textContent='שומר…';
+  const prev={...DB.duty}; DB.duty={};
+  document.querySelectorAll('#dutyList input').forEach(i=>{ if(i.value.trim()) DB.duty[i.dataset.key]=i.value.trim(); });
+  try{ await saveDB(); closeDutyModal(); render(); toast('✓ שיבוצי תורנות עודכנו'); }
+  catch(e){ DB.duty=prev; toast('שגיאה בשמירה'); }
+  finally{ btn.disabled=false; btn.textContent='שמור שיבוצים'; }
+}
+
+// TOAST
+function toast(msg) {
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// Overlay close
+document.getElementById('addModal').addEventListener('click',e=>{ if(e.target.id==='addModal') closeAddModal(); });
+document.getElementById('dutyModal').addEventListener('click',e=>{ if(e.target.id==='dutyModal') closeDutyModal(); });
+
+// INIT
+(async()=>{
+  try {
+    await loadDB();
+  } catch(e) {
+    // Bin might be uninitialised — try to write initial data
+    try { await saveDB(); }
+    catch(e2) {
+      document.getElementById('loadMsg').textContent='שגיאה בחיבור לענן. בדוק אינטרנט ורענן.';
+      return;
+    }
+  }
+  document.getElementById('loadingScreen').style.display='none';
+  render();
+  // Refresh every 60s to pick up other users' changes
+  setInterval(async()=>{ try{ await loadDB(); render(); }catch(e){} }, 60000);
+})();
+</script>
+</body>
+</html>
