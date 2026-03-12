@@ -176,8 +176,8 @@
 <main>
   <div class="overview-grid">
     <div class="ov-card orange"><div class="ov-num" id="totalToday">—</div><div class="ov-label">ביקורות היום</div></div>
-    <div class="ov-card blue"><div class="ov-num" id="totalWeek">—</div><div class="ov-label">השבוע הקרוב</div></div>
-    <div class="ov-card navy"><div class="ov-num" id="totalTwo">—</div><div class="ov-label">בשבועיים הקרובים</div></div>
+    <div class="ov-card blue"><div class="ov-num" id="totalWeek">—</div><div class="ov-label">שבוע ראשון</div></div>
+    <div class="ov-card navy"><div class="ov-num" id="totalTwo">—</div><div class="ov-label">שבוע שני</div></div>
   </div>
   <div class="date-scroll" id="dateStrip"></div>
   <div id="dayPanels"></div>
@@ -201,7 +201,7 @@
       <input class="form-control" type="text" id="f_name" placeholder="שם פרטי ושם משפחה">
     </div>
     <div class="form-group">
-      <label>מספר תעודת זהות <span>*</span></label>
+      <label>מספר תעודת זהות</label>
       <input class="form-control" type="text" id="f_id" inputmode="numeric" placeholder="9 ספרות">
     </div>
     <div class="form-group">
@@ -290,7 +290,8 @@ function render() {
 
   document.getElementById('totalToday').textContent = DB.patients.filter(p=>p.date===tk).length;
   document.getElementById('totalWeek').textContent  = DB.patients.filter(p=>wk.includes(p.date)).length;
-  document.getElementById('totalTwo').textContent   = DB.patients.filter(p=>ak.includes(p.date)).length;
+  const wk2=dates.slice(7,14).map(dKey);
+  document.getElementById('totalTwo').textContent   = DB.patients.filter(p=>wk2.includes(p.date)).length;
 
   // Strip
   const strip = document.getElementById('dateStrip');
@@ -413,7 +414,7 @@ async function submitPatient() {
   const reason=document.getElementById('f_reason').value.trim();
   const resident=document.getElementById('f_resident').value.trim();
   const tests=[...document.querySelectorAll('#testsGrid input:checked')].map(i=>i.value);
-  if(!date||!name||!pid){ toast('יש למלא תאריך, שם ות.ז.'); return; }
+  if(!date||!name){ toast('יש למלא תאריך ושם מטופל'); return; }
   const btn=document.getElementById('btnSubmit');
   btn.disabled=true; btn.textContent='שומר…';
   try {
