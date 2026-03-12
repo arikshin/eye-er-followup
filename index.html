@@ -78,7 +78,7 @@
   .load-bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--slate);margin-bottom:5px}
   .load-bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden}
   .load-bar-fill{height:100%;border-radius:5px;transition:width .5s}
-  .load-low{background:#3bbf7a} .load-medium{background:var(--amber)} .load-high{background:var(--orange)} .load-overload{background:var(--danger)}
+  .load-low{background:#3bbf7a} .load-medium{background:#e8742a} .load-high{background:#d94040} .load-overload{background:#1a1a1a}
 
   /* DUTY ROW */
   .duty-row{background:var(--ice);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-size:13px}
@@ -118,9 +118,9 @@
   .dlp{margin-top:6px;font-size:12px;padding:6px 10px;border-radius:8px;display:none}
   .dlp.show{display:block}
   .dlp.lp-low{background:#edfaf3;color:#2d8653}
-  .dlp.lp-medium{background:#fff8e6;color:#b07d00}
-  .dlp.lp-high{background:#fff1e6;color:#c04a00}
-  .dlp.lp-overload{background:#fdeaea;color:#a80000}
+  .dlp.lp-medium{background:#fff1e6;color:#c04a00}
+  .dlp.lp-high{background:#fdeaea;color:#a80000}
+  .dlp.lp-overload{background:#1a1a1a;color:#ffffff}
   .tests-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .test-check{display:flex;align-items:center;gap:8px;border:2px solid var(--border);border-radius:10px;padding:9px 12px;cursor:pointer;transition:all .15s;font-size:13px;font-weight:500;user-select:none}
   .test-check input{display:none}
@@ -247,7 +247,7 @@ const BIN_KEY = '$2a$10$.g2GAlRZVdB6z7SS/WMrOO5rdFegQIq5EHyMyD/KhIO53S4Unl3MW';
 const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
 const TESTS = ['בדיקת רופא (ללא הרחבה)','הרחבת אישונים','OCT','Optos','שדות ראייה','RAPD','FA (אנגיוגרפיה)'];
-const THR = { low:3, medium:6, high:9 };
+const THR = { low:2, medium:4, high:6 };
 const HE_DAYS = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
 const HE_MON  = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
 
@@ -282,10 +282,10 @@ function get14()  { const t=today0(); return Array.from({length:14},(_,i)=>dAdd(
 
 // LOAD HELPERS
 function cnt(key) { return DB.patients.filter(p=>p.date===key).length; }
-function lClass(c){ return c<=0?'load-low':c<=THR.low?'load-low':c<=THR.medium?'load-medium':c<=THR.high?'load-high':'load-overload'; }
-function lLabel(c){ if(c===0)return'אין ביקורות'; if(c<=THR.low)return`עומס נמוך (${c})`; if(c<=THR.medium)return`עומס בינוני (${c})`; if(c<=THR.high)return`עומס גבוה (${c})`; return`עומס גבוה מאוד! (${c})`; }
-function lPct(c)  { return Math.min(100,(c/10)*100); }
-function lpCls(c) { return c<=0||c<=THR.low?'lp-low':c<=THR.medium?'lp-medium':c<=THR.high?'lp-high':'lp-overload'; }
+function lClass(c){ if(c<=0)return'load-low'; if(c<=THR.low)return'load-low'; if(c<=THR.medium)return'load-medium'; if(c<=THR.high)return'load-high'; return'load-overload'; }
+function lLabel(c){ if(c===0)return'אין ביקורות'; if(c<=THR.low)return`עומס נמוך (${c})`; if(c<=THR.medium)return`עומס בינוני (${c})`; if(c<=THR.high)return`עומס גבוה (${c})`; return`עומס חריג! (${c})`; }
+function lPct(c)  { return Math.min(100,(c/6)*100); }
+function lpCls(c) { if(c<=0||c<=THR.low)return'lp-low'; if(c<=THR.medium)return'lp-medium'; if(c<=THR.high)return'lp-high'; return'lp-overload'; }
 
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
@@ -304,7 +304,7 @@ function render() {
   strip.innerHTML='';
   dates.forEach(d=>{
     const k=dKey(d), c=cnt(k), isTd=(k===tk);
-    const dc=c===0?'#ddd':c<=3?'#3bbf7a':c<=6?'#f5a623':c<=9?'#e8742a':'#d94040';
+    const dc=c===0?'#ddd':c<=2?'#3bbf7a':c<=4?'#e8742a':c<=6?'#d94040':'#1a1a1a';
     const dots=c>0?Array.from({length:Math.min(c,5)},()=>`<div class="dot" style="background:${dc}"></div>`).join(''):'';
     const ch=document.createElement('div');
     ch.className='date-chip'+(isTd?' today':'');
