@@ -224,11 +224,7 @@ input[type=color]{width:100%;height:100%;border:none;padding:0;cursor:pointer;ba
 </div>
 
 <main>
-  <div class="overview-grid">
-    <div class="ov-card orange"><div class="ov-num" id="totalToday">—</div><div class="ov-label">ביקורות היום</div></div>
-    <div class="ov-card blue"><div class="ov-num" id="totalWeek">—</div><div class="ov-label">שבוע ראשון</div></div>
-    <div class="ov-card navy"><div class="ov-num" id="totalTwo">—</div><div class="ov-label">שבוע שני</div></div>
-  </div>
+  <div class="overview-grid" id="overviewGrid"></div>
   <div class="date-scroll" id="dateStrip"></div>
   <div id="dayPanels"></div>
 </main>
@@ -266,7 +262,7 @@ input[type=color]{width:100%;height:100%;border:none;padding:0;cursor:pointer;ba
       <textarea class="form-control" id="f_reason" rows="2" placeholder="תיאור קצר של הפתולוגיה / הסיבה"></textarea>
     </div>
     <div class="form-group">
-      <label>בדיקות נדרשות</label>
+      <label>בדיקות נדרשות <span style="color:var(--slate);font-weight:400">(לא חובה)</span></label>
       <div class="tests-grid" id="testsGrid"></div>
     </div>
     <button class="btn-submit" id="btnSubmit" onclick="submitPatient()">שמור ביקורת</button>
@@ -309,7 +305,7 @@ input[type=color]{width:100%;height:100%;border:none;padding:0;cursor:pointer;ba
     <p class="sub">הוסף או הסר מתמחים מהרשימה</p>
     <div id="resList"></div>
     <div class="add-res-row">
-      <input class="form-control" type="text" id="newResName" placeholder="שם מתמחה חדש">
+      <input class="form-control" type="text" id="newResName" placeholder="שם מתמחה חדש" onkeydown="if(event.key==='Enter')addResident()">
       <button class="btn-sm" onclick="addResident()">הוסף</button>
     </div>
     <button class="btn-submit" id="btnSaveRes" onclick="saveResidents()">שמור רשימה</button>
@@ -370,7 +366,7 @@ const BIN_ID  = '69b2e45ab7ec241ddc625227';
 const BIN_KEY = '$2a$10$.g2GAlRZVdB6z7SS/WMrOO5rdFegQIq5EHyMyD/KhIO53S4Unl3MW';
 const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
-const TESTS = ['בדיקת רופא (ללא הרחבה)','הרחבת אישונים','OCT','Optos','שדות ראייה','RAPD','FA (אנגיוגרפיה)'];
+const TESTS = ['OCT','Optos','שדות ראייה','RAPD','FA (אנגיוגרפיה)'];
 const HE_DAYS  = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
 const HE_MON   = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
 
@@ -444,10 +440,27 @@ function render(){
   const dates=getDates(), t=today0(), tk=dKey(t);
   const wk=dates.slice(0,7).map(dKey), wk2=dates.slice(7,14).map(dKey);
 
-  document.getElementById('totalToday').textContent = DB.patients.filter(p=>p.date===tk).length;
-  document.getElementById('totalWeek').textContent  = DB.patients.filter(p=>wk.includes(p.date)).length;
-  document.getElementById('totalTwo').textContent   = DB.patients.filter(p=>wk2.includes(p.date)).length;
-  document.getElementById('headerSub').textContent  = `מיון עיניים · ${DB.rangeWeeks||2} שבועות קרובים`;
+  // Dynamic overview cards
+  const weeks = DB.rangeWeeks||2;
+  const colors = ['orange','blue','navy','teal'];
+  const tealStyle = 'background:white;border-radius:14px;padding:14px 12px;box-shadow:var(--shadow);text-align:center';
+  const og = document.getElementById('overviewGrid');
+  og.style.gridTemplateColumns = `repeat(${weeks+1},1fr)`;
+  og.innerHTML = '';
+  // Today card
+  const todayCnt = DB.patients.filter(p=>p.date===tk).length;
+  og.innerHTML += `<div class="ov-card orange"><div class="ov-num">${todayCnt}</div><div class="ov-label">ביקורות היום</div></div>`;
+  // One card per week
+  const weekNames = ['שבוע ראשון','שבוע שני','שבוע שלישי','שבוע רביעי'];
+  const cardColors = ['blue','navy'];
+  const extraColors = ['#2e7fc9','#0d2340','#1a4a7a','#8097b1'];
+  for(let w=0;w<weeks;w++){
+    const wKeys = dates.slice(w*7,(w+1)*7).map(dKey);
+    const wCnt  = DB.patients.filter(p=>wKeys.includes(p.date)).length;
+    const col   = extraColors[w]||extraColors[extraColors.length-1];
+    og.innerHTML += `<div class="ov-card" style="background:white;border-radius:14px;padding:14px 12px;box-shadow:var(--shadow);text-align:center"><div class="ov-num" style="color:${col}">${wCnt}</div><div class="ov-label">${weekNames[w]||'שבוע '+(w+1)}</div></div>`;
+  }
+  document.getElementById('headerSub').textContent  = `מיון עיניים · ${weeks} ${weeks===1?'שבוע':'שבועות'} קרובים`;
 
   // Date strip
   const strip=document.getElementById('dateStrip');
@@ -750,10 +763,12 @@ function renderResList(){
 function removeRes(i){ _tempResidents.splice(i,1); renderResList(); }
 function addResident(){
   const inp=document.getElementById('newResName'), name=inp.value.trim();
-  if(!name) return;
+  if(!name){ toast('יש להזין שם'); return; }
+  if(_tempResidents.includes(name)){ toast('המתמחה כבר ברשימה'); inp.value=''; return; }
   _tempResidents.push(name);
   _tempResidents.sort((a,b)=>a.localeCompare(b,'he'));
   renderResList(); inp.value='';
+  inp.focus();
 }
 async function saveResidents(){
   const btn=document.getElementById('btnSaveRes'); btn.disabled=true; btn.textContent='שומר…';
