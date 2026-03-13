@@ -13,146 +13,182 @@
 <title>ביקורות מתוכננות – מיון עיניים</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy:#0d2340; --blue:#1a4a7a; --sky:#2e7fc9; --ice:#e8f2fb;
-    --slate:#8097b1; --fog:#f2f5f9; --orange:#e8742a; --amber:#f5a623;
-    --danger:#d94040; --gray:#4a5568; --border:#d4e2ef;
-    --shadow:0 2px 16px rgba(13,35,64,.10);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Heebo',sans-serif;background:var(--fog);color:var(--navy);min-height:100vh;font-size:15px}
+:root{
+  --navy:#0d2340;--blue:#1a4a7a;--sky:#2e7fc9;--ice:#e8f2fb;
+  --slate:#8097b1;--fog:#f2f5f9;--orange:#e8742a;--amber:#f5a623;
+  --danger:#d94040;--gray:#4a5568;--border:#d4e2ef;
+  --shadow:0 2px 16px rgba(13,35,64,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Heebo',sans-serif;background:var(--fog);color:var(--navy);min-height:100vh;font-size:15px}
 
-  /* LOADING */
-  #loadingScreen{position:fixed;inset:0;background:var(--fog);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
-  .spinner{width:44px;height:44px;border:4px solid var(--border);border-top-color:var(--sky);border-radius:50%;animation:spin .8s linear infinite}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  #loadingScreen p{font-size:14px;color:var(--slate);font-weight:500}
+/* LOADING */
+#loadingScreen{position:fixed;inset:0;background:var(--fog);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.spinner{width:44px;height:44px;border:4px solid var(--border);border-top-color:var(--sky);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#loadingScreen p{font-size:14px;color:var(--slate);font-weight:500}
 
-  /* HEADER */
-  header{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%);color:white;padding:16px 20px 14px;position:sticky;top:0;z-index:100;box-shadow:0 3px 20px rgba(13,35,64,.35)}
-  .header-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px}
-  .logo-wrap{width:46px;height:46px;background:rgba(255,255,255,.12);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .header-text h1{font-size:17px;font-weight:700;letter-spacing:-.3px}
-  .header-text p{font-size:12px;opacity:.65;margin-top:2px}
-  .header-actions{margin-right:auto;display:flex;gap:8px;align-items:center}
-  .btn-gear{background:rgba(255,255,255,.15);border:none;border-radius:10px;width:42px;height:42px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:white;font-size:18px}
-  .btn-add{background:var(--orange);color:white;border:none;border-radius:10px;padding:9px 16px;font-family:'Heebo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .2s}
-  .btn-add:hover{background:#d0651e}
+/* HEADER */
+header{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%);color:white;padding:16px 20px 14px;position:sticky;top:0;z-index:100;box-shadow:0 3px 20px rgba(13,35,64,.35)}
+.header-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px}
+.logo-wrap{width:46px;height:46px;background:rgba(255,255,255,.12);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.header-text h1{font-size:17px;font-weight:700;letter-spacing:-.3px}
+.header-text p{font-size:12px;opacity:.65;margin-top:2px}
+.header-actions{margin-right:auto;display:flex;gap:8px;align-items:center}
+.btn-gear{background:rgba(255,255,255,.15);border:none;border-radius:10px;width:42px;height:42px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:white;font-size:18px}
+.btn-add{background:var(--orange);color:white;border:none;border-radius:10px;padding:9px 16px;font-family:'Heebo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .2s}
+.btn-add:hover{background:#d0651e}
 
-  /* MAIN */
-  main{max-width:900px;margin:0 auto;padding:18px 14px 80px}
+/* MAIN */
+main{max-width:900px;margin:0 auto;padding:18px 14px 80px}
 
-  /* OVERVIEW */
-  .overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
-  .ov-card{background:white;border-radius:14px;padding:14px 12px;box-shadow:var(--shadow);text-align:center}
-  .ov-card .ov-num{font-size:28px;font-weight:800;line-height:1}
-  .ov-card .ov-label{font-size:11px;color:var(--slate);margin-top:4px}
-  .ov-card.orange .ov-num{color:var(--orange)}
-  .ov-card.blue .ov-num{color:var(--sky)}
-  .ov-card.navy .ov-num{color:var(--navy)}
+/* OVERVIEW */
+.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.ov-card{background:white;border-radius:14px;padding:14px 12px;box-shadow:var(--shadow);text-align:center}
+.ov-card .ov-num{font-size:28px;font-weight:800;line-height:1}
+.ov-card .ov-label{font-size:11px;color:var(--slate);margin-top:4px}
+.ov-card.orange .ov-num{color:var(--orange)}
+.ov-card.blue .ov-num{color:var(--sky)}
+.ov-card.navy .ov-num{color:var(--navy)}
 
-  /* DATE STRIP */
-  .date-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:18px;scrollbar-width:none}
-  .date-scroll::-webkit-scrollbar{display:none}
-  .date-chip{flex-shrink:0;background:white;border:2px solid var(--border);border-radius:12px;padding:8px 12px;cursor:pointer;text-align:center;transition:all .2s;min-width:62px}
-  .date-chip .day-name{font-size:11px;color:var(--slate);font-weight:500}
-  .date-chip .day-num{font-size:20px;font-weight:700;line-height:1.1}
-  .date-chip .dot-row{display:flex;justify-content:center;gap:3px;margin-top:4px;min-height:7px}
-  .date-chip .dot{width:7px;height:7px;border-radius:50%}
-  .date-chip.today{border-color:var(--sky);background:var(--ice)}
-  .date-chip.today .day-num{color:var(--sky)}
-  .load-mini{height:4px;border-radius:2px;margin-top:5px;background:var(--border);overflow:hidden}
-  .load-mini-fill{height:100%;border-radius:2px}
+/* DATE STRIP */
+.date-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:18px;scrollbar-width:none}
+.date-scroll::-webkit-scrollbar{display:none}
+.date-chip{flex-shrink:0;background:white;border:2px solid var(--border);border-radius:12px;padding:8px 12px;cursor:pointer;text-align:center;transition:all .2s;min-width:62px}
+.date-chip .day-name{font-size:11px;color:var(--slate);font-weight:500}
+.date-chip .day-num{font-size:20px;font-weight:700;line-height:1.1}
+.date-chip .dot-row{display:flex;justify-content:center;gap:3px;margin-top:4px;min-height:7px}
+.date-chip .dot{width:7px;height:7px;border-radius:50%}
+.date-chip.today{border-color:var(--sky);background:var(--ice)}
+.date-chip.today .day-num{color:var(--sky)}
+.load-mini{height:4px;border-radius:2px;margin-top:5px;background:var(--border);overflow:hidden}
+.load-mini-fill{height:100%;border-radius:2px}
 
-  /* DAY PANEL */
-  .day-panel{background:white;border-radius:16px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px}
-  .day-panel-header{background:linear-gradient(90deg,var(--navy) 0%,var(--blue) 100%);color:white;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
-  .day-panel-header h3{font-size:15px;font-weight:700}
-  .day-panel-header .meta{font-size:12px;opacity:.7;margin-top:2px}
-  .dph-right{text-align:center}
-  .dph-count{font-size:22px;font-weight:800;background:rgba(255,255,255,.15);border-radius:10px;width:46px;height:38px;display:flex;align-items:center;justify-content:center}
-  .dph-toggle{font-size:16px;margin-top:4px;opacity:.7}
-  .day-panel-body{padding:14px;display:none}
-  .day-panel-body.open{display:block}
-  .load-bar-wrap{margin-bottom:16px}
-  .load-bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--slate);margin-bottom:5px}
-  .load-bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden}
-  .load-bar-fill{height:100%;border-radius:5px;transition:width .5s}
-  .load-low{background:#3bbf7a} .load-medium{background:#e8742a} .load-high{background:#d94040} .load-overload{background:#1a1a1a}
+/* DAY PANEL */
+.day-panel{background:white;border-radius:16px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px}
+.day-panel-header{background:linear-gradient(90deg,var(--navy) 0%,var(--blue) 100%);color:white;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.day-panel-header h3{font-size:15px;font-weight:700}
+.day-panel-header .meta{font-size:12px;opacity:.7;margin-top:2px}
+.dph-right{text-align:center}
+.dph-count{font-size:22px;font-weight:800;background:rgba(255,255,255,.15);border-radius:10px;width:46px;height:38px;display:flex;align-items:center;justify-content:center}
+.dph-toggle{font-size:16px;margin-top:4px;opacity:.7}
+.day-panel-body{padding:14px;display:none}
+.day-panel-body.open{display:block}
+.load-bar-wrap{margin-bottom:16px}
+.load-bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--slate);margin-bottom:5px}
+.load-bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden}
+.load-bar-fill{height:100%;border-radius:5px;transition:width .5s}
+.load-low{background:#3bbf7a}.load-medium{background:#e8742a}.load-high{background:#d94040}.load-overload{background:#1a1a1a}
 
-  /* DUTY ROW */
-  .duty-row{background:var(--ice);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-size:13px}
-  .duty-icon{width:32px;height:32px;background:var(--sky);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .duty-row .dlabel{color:var(--slate);font-size:12px}
-  .duty-row .dname{font-weight:600;color:var(--navy)}
+/* DUTY ROW */
+.duty-row{background:var(--ice);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-size:13px}
+.duty-icon{width:32px;height:32px;background:var(--sky);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.duty-row .dlabel{color:var(--slate);font-size:12px}
+.duty-row .dname{font-weight:600;color:var(--navy)}
 
-  /* PATIENT CARD */
-  .patient-card{border:1.5px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:10px;background:white;transition:box-shadow .2s}
-  .patient-card:hover{box-shadow:var(--shadow)}
-  .pc-name{font-weight:700;font-size:15px}
-  .pc-id{font-size:12px;color:var(--slate);margin-top:2px}
-  .pc-reason{margin-top:8px;background:var(--fog);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--gray)}
-  .reason-label{font-weight:600;color:var(--navy);margin-bottom:3px;font-size:12px}
-  .pc-tests{margin-top:8px;display:flex;flex-wrap:wrap;gap:5px}
-  .test-tag{background:var(--ice);color:var(--sky);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:600}
-  .pc-footer{margin-top:8px;display:flex;align-items:center}
-  .pc-resident{font-size:11px;color:var(--slate)}
-  .pc-delete{margin-right:auto;background:none;border:none;color:#ccc;cursor:pointer;font-size:16px;padding:2px 6px;transition:color .2s}
-  .pc-delete:hover{color:var(--danger)}
-  .empty-state{text-align:center;padding:30px 0;color:var(--slate)}
-  .empty-state svg{width:40px;height:40px;opacity:.35;margin-bottom:10px}
-  .empty-state p{font-size:14px}
+/* PATIENT CARD */
+.patient-card{border:1.5px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:10px;background:white;transition:box-shadow .2s}
+.patient-card:hover{box-shadow:var(--shadow)}
+.pc-name{font-weight:700;font-size:15px}
+.pc-id{font-size:12px;color:var(--slate);margin-top:2px}
+.pc-reason{margin-top:8px;background:var(--fog);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--gray)}
+.reason-label{font-weight:600;color:var(--navy);margin-bottom:3px;font-size:12px}
+.pc-tests{margin-top:8px;display:flex;flex-wrap:wrap;gap:5px}
+.test-tag{background:var(--ice);color:var(--sky);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:600}
+.pc-footer{margin-top:8px;display:flex;align-items:center}
+.pc-resident{font-size:11px;color:var(--slate)}
+.pc-delete{margin-right:auto;background:none;border:none;color:#ccc;cursor:pointer;font-size:16px;padding:2px 6px;transition:color .2s}
+.pc-delete:hover{color:var(--danger)}
+.empty-state{text-align:center;padding:30px 0;color:var(--slate)}
+.empty-state svg{width:40px;height:40px;opacity:.35;margin-bottom:10px}
+.empty-state p{font-size:14px}
 
-  /* MODALS */
-  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
-  .modal-overlay.open{opacity:1;pointer-events:all}
-  .modal{background:white;border-radius:22px 22px 0 0;padding:24px 20px 32px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;transform:translateY(50px);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:0 -8px 40px rgba(0,0,0,.2)}
-  .modal-overlay.open .modal{transform:translateY(0)}
-  .modal h2{font-size:18px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px}
-  .modal-drag{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 20px}
-  .form-group{margin-bottom:16px}
-  .form-group label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px}
-  .form-group label span{color:var(--orange)}
-  .form-control{width:100%;border:2px solid var(--border);border-radius:10px;padding:11px 13px;font-family:'Heebo',sans-serif;font-size:14px;color:var(--navy);outline:none;transition:border-color .2s;background:white;-webkit-appearance:none}
-  .form-control:focus{border-color:var(--sky)}
-  .dlp{margin-top:6px;font-size:12px;padding:6px 10px;border-radius:8px;display:none}
-  .dlp.show{display:block}
-  .dlp.lp-low{background:#edfaf3;color:#2d8653}
-  .dlp.lp-medium{background:#fff1e6;color:#c04a00}
-  .dlp.lp-high{background:#fdeaea;color:#a80000}
-  .dlp.lp-overload{background:#1a1a1a;color:#ffffff}
-  .tests-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-  .test-check{display:flex;align-items:center;gap:8px;border:2px solid var(--border);border-radius:10px;padding:9px 12px;cursor:pointer;transition:all .15s;font-size:13px;font-weight:500;user-select:none}
-  .test-check input{display:none}
-  .test-check.checked{border-color:var(--sky);background:var(--ice);color:var(--sky)}
-  .cb-box{width:18px;height:18px;border:2px solid var(--border);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .15s}
-  .test-check.checked .cb-box{background:var(--sky);border-color:var(--sky);color:white}
-  .btn-submit{width:100%;background:linear-gradient(135deg,var(--blue) 0%,var(--sky) 100%);color:white;border:none;border-radius:12px;padding:14px;font-family:'Heebo',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px;transition:opacity .2s}
-  .btn-submit:disabled{opacity:.6;cursor:not-allowed}
-  .btn-cancel{width:100%;background:var(--fog);color:var(--gray);border:none;border-radius:12px;padding:12px;font-family:'Heebo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-top:10px}
+/* MODALS — bottom sheet */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:white;border-radius:22px 22px 0 0;padding:24px 20px 32px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;transform:translateY(50px);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:0 -8px 40px rgba(0,0,0,.2)}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal h2{font-size:18px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.modal-drag{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 20px}
 
-  .duty-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;padding:20px}
-  .duty-modal-overlay.open{opacity:1;pointer-events:all}
-  .duty-modal{background:white;border-radius:18px;padding:24px;width:100%;max-width:460px;max-height:88vh;overflow-y:auto;box-shadow:0 8px 40px rgba(13,35,64,.18);transform:scale(.95);transition:transform .25s}
-  .duty-modal-overlay.open .duty-modal{transform:scale(1)}
-  .duty-modal h2{font-size:17px;font-weight:800;margin-bottom:8px}
-  .duty-modal p{font-size:13px;color:var(--slate);margin-bottom:16px}
-  .duty-entry{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-  .duty-entry label{font-size:13px;font-weight:600;min-width:85px;flex-shrink:0;color:var(--navy)}
+/* MODALS — center dialog */
+.dialog-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;padding:16px}
+.dialog-overlay.open{opacity:1;pointer-events:all}
+.dialog{background:white;border-radius:18px;padding:24px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(13,35,64,.18);transform:scale(.95);transition:transform .25s}
+.dialog-overlay.open .dialog{transform:scale(1)}
+.dialog h2{font-size:17px;font-weight:800;margin-bottom:6px}
+.dialog .sub{font-size:13px;color:var(--slate);margin-bottom:18px}
 
-  /* TOAST */
-  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:white;padding:12px 22px;border-radius:30px;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.3);z-index:999;transition:transform .3s,opacity .3s;opacity:0;white-space:nowrap}
-  .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+/* SETTINGS MENU */
+.settings-menu{position:fixed;top:70px;left:14px;background:white;border-radius:14px;box-shadow:0 8px 32px rgba(13,35,64,.22);z-index:150;min-width:200px;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(-8px) scale(.97);transition:all .2s}
+.settings-menu.open{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
+.sm-item{display:flex;align-items:center;gap:12px;padding:14px 18px;font-size:14px;font-weight:600;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
+.sm-item:last-child{border-bottom:none}
+.sm-item:hover{background:var(--fog)}
+.sm-item .sm-icon{font-size:18px;width:24px;text-align:center}
 
-  @media(min-width:600px){main{padding:24px 24px 80px}.tests-grid{grid-template-columns:1fr 1fr 1fr}}
+/* FORM */
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.form-group label span{color:var(--orange)}
+.form-control{width:100%;border:2px solid var(--border);border-radius:10px;padding:11px 13px;font-family:'Heebo',sans-serif;font-size:14px;color:var(--navy);outline:none;transition:border-color .2s;background:white;-webkit-appearance:none}
+.form-control:focus{border-color:var(--sky)}
+.dlp{margin-top:6px;font-size:12px;padding:6px 10px;border-radius:8px;display:none}
+.dlp.show{display:block}
+.dlp.lp-low{background:#edfaf3;color:#2d8653}
+.dlp.lp-medium{background:#fff1e6;color:#c04a00}
+.dlp.lp-high{background:#fdeaea;color:#a80000}
+.dlp.lp-overload{background:#1a1a1a;color:#fff}
+.tests-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.test-check{display:flex;align-items:center;gap:8px;border:2px solid var(--border);border-radius:10px;padding:9px 12px;cursor:pointer;transition:all .15s;font-size:13px;font-weight:500;user-select:none}
+.test-check input{display:none}
+.test-check.checked{border-color:var(--sky);background:var(--ice);color:var(--sky)}
+.cb-box{width:18px;height:18px;border:2px solid var(--border);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .15s}
+.test-check.checked .cb-box{background:var(--sky);border-color:var(--sky);color:white}
+
+/* DATE PICKER (custom calendar) */
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cal-nav button{background:var(--fog);border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
+.cal-nav h3{font-size:15px;font-weight:700}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
+.cal-header{font-size:11px;font-weight:600;color:var(--slate);padding:4px 0}
+.cal-day{font-size:13px;font-weight:500;padding:7px 4px;border-radius:8px;cursor:pointer;transition:all .15s;position:relative}
+.cal-day:hover{background:var(--ice)}
+.cal-day.today{color:var(--sky);font-weight:700}
+.cal-day.selected{background:var(--navy);color:white!important}
+.cal-day.past{color:#ccc;cursor:default}
+.cal-day.empty{cursor:default}
+.cal-day .cal-dot{width:5px;height:5px;border-radius:50%;margin:2px auto 0;display:block}
+.cal-selected-info{margin-top:12px;padding:10px 14px;background:var(--ice);border-radius:10px;font-size:13px;font-weight:600;color:var(--navy);text-align:center;min-height:36px}
+
+/* RESIDENTS LIST */
+.res-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;margin-bottom:8px;font-size:14px;font-weight:500}
+.res-delete{background:none;border:none;color:#ccc;cursor:pointer;font-size:16px;padding:2px 6px;transition:color .2s}
+.res-delete:hover{color:var(--danger)}
+.add-res-row{display:flex;gap:8px;margin-top:12px}
+
+/* LOAD SETTINGS */
+.load-setting-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;margin-bottom:10px}
+.load-setting-row label{font-size:13px;font-weight:600;color:var(--navy)}
+.color-swatch{width:38px;height:38px;border-radius:8px;border:2px solid var(--border);cursor:pointer;overflow:hidden;padding:0}
+input[type=color]{width:100%;height:100%;border:none;padding:0;cursor:pointer;background:none}
+
+/* BTNS */
+.btn-submit{width:100%;background:linear-gradient(135deg,var(--blue) 0%,var(--sky) 100%);color:white;border:none;border-radius:12px;padding:14px;font-family:'Heebo',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px;transition:opacity .2s}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed}
+.btn-cancel{width:100%;background:var(--fog);color:var(--gray);border:none;border-radius:12px;padding:12px;font-family:'Heebo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-top:10px}
+.btn-sm{background:var(--sky);color:white;border:none;border-radius:8px;padding:9px 14px;font-family:'Heebo',sans-serif;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:white;padding:12px 22px;border-radius:30px;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.3);z-index:999;transition:transform .3s,opacity .3s;opacity:0;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+@media(min-width:600px){main{padding:24px 24px 80px}.tests-grid{grid-template-columns:1fr 1fr 1fr}}
 </style>
 </head>
 <body>
 
-<div id="loadingScreen">
-  <div class="spinner"></div>
-  <p id="loadMsg">טוען נתונים מהענן…</p>
-</div>
+<div id="loadingScreen"><div class="spinner"></div><p id="loadMsg">טוען נתונים מהענן…</p></div>
 
 <header>
   <div class="header-inner">
@@ -167,10 +203,10 @@
     </div>
     <div class="header-text">
       <h1>ביקורות מתוכננות</h1>
-      <p>מיון עיניים · שבועיים קרובים</p>
+      <p id="headerSub">מיון עיניים</p>
     </div>
     <div class="header-actions">
-      <button class="btn-gear" onclick="openDutyModal()" title="עדכון שיבוצים">⚙️</button>
+      <button class="btn-gear" onclick="toggleSettings()" title="הגדרות">⚙️</button>
       <button class="btn-add" onclick="openAddModal()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         הזמן ביקורת
@@ -178,6 +214,14 @@
     </div>
   </div>
 </header>
+
+<!-- SETTINGS MENU -->
+<div class="settings-menu" id="settingsMenu">
+  <div class="sm-item" onclick="openDutyModal()"><span class="sm-icon">📅</span>שיבוצי תורנות</div>
+  <div class="sm-item" onclick="openResidentsModal()"><span class="sm-icon">👨‍⚕️</span>רשימת מתמחים</div>
+  <div class="sm-item" onclick="openLoadSettingsModal()"><span class="sm-icon">📊</span>הגדרת עומסים</div>
+  <div class="sm-item" onclick="openRangeModal()"><span class="sm-icon">🗓</span>טווח זמן לביקורות</div>
+</div>
 
 <main>
   <div class="overview-grid">
@@ -197,10 +241,17 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="22" height="22"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
       הזמנת ביקורת חדשה
     </h2>
+    <!-- 1. Resident first (required) -->
+    <div class="form-group">
+      <label>מתמחה מזמין <span>*</span></label>
+      <select class="form-control" id="f_resident"><option value="">— בחר מתמחה —</option></select>
+    </div>
+    <!-- 2. Date -->
     <div class="form-group">
       <label>תאריך ביקורת <span>*</span></label>
       <select class="form-control" id="f_date" onchange="updateLoadPreview()"><option value="">— בחר תאריך —</option></select>
       <div class="dlp" id="loadPreview"></div>
+      <button type="button" style="margin-top:8px;width:100%;background:var(--fog);border:2px dashed var(--border);border-radius:10px;padding:10px;font-family:'Heebo',sans-serif;font-size:13px;font-weight:600;color:var(--slate);cursor:pointer" onclick="openCalModal()">📅 מועד אחר (מעבר לטווח המוצג)</button>
     </div>
     <div class="form-group">
       <label>שם המטופל <span>*</span></label>
@@ -208,112 +259,211 @@
     </div>
     <div class="form-group">
       <label>מספר תעודת זהות</label>
-      <input class="form-control" type="text" id="f_id" inputmode="numeric" placeholder="9 ספרות">
+      <input class="form-control" type="text" id="f_id" inputmode="numeric" placeholder="9 ספרות (לא חובה)">
     </div>
     <div class="form-group">
-      <label>סיבת הביקורת <span>*</span></label>
+      <label>סיבת הביקורת</label>
       <textarea class="form-control" id="f_reason" rows="2" placeholder="תיאור קצר של הפתולוגיה / הסיבה"></textarea>
     </div>
     <div class="form-group">
       <label>בדיקות נדרשות</label>
       <div class="tests-grid" id="testsGrid"></div>
     </div>
-    <div class="form-group">
-      <label>שם המתמחה המזמין</label>
-      <input class="form-control" type="text" id="f_resident" placeholder="שמך">
-    </div>
     <button class="btn-submit" id="btnSubmit" onclick="submitPatient()">שמור ביקורת</button>
     <button class="btn-cancel" onclick="closeAddModal()">ביטול</button>
   </div>
 </div>
 
+<!-- CALENDAR MODAL (custom date picker) -->
+<div class="dialog-overlay" id="calModal">
+  <div class="dialog">
+    <h2>📅 בחירת מועד</h2>
+    <p class="sub">בחר תאריך ביקורת מהיומן</p>
+    <div class="cal-nav">
+      <button onclick="calPrevMonth()">‹</button>
+      <h3 id="calTitle"></h3>
+      <button onclick="calNextMonth()">›</button>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="cal-selected-info" id="calSelectedInfo">לא נבחר תאריך</div>
+    <button class="btn-submit" onclick="confirmCalDate()">אשר תאריך</button>
+    <button class="btn-cancel" onclick="closeCalModal()">ביטול</button>
+  </div>
+</div>
+
 <!-- DUTY MODAL -->
-<div class="duty-modal-overlay" id="dutyModal">
-  <div class="duty-modal">
-    <h2>⚙️ שיבוצי תורנות מיון</h2>
-    <p>מתמחה משובץ למיון בשעות הבוקר (ניתן לעדכן בכל עת)</p>
+<div class="dialog-overlay" id="dutyModal">
+  <div class="dialog">
+    <h2>📅 שיבוצי תורנות מיון</h2>
+    <p class="sub">מתמחה משובץ למיון בשעות הבוקר (ניתן לעדכן בכל עת)</p>
     <div id="dutyList"></div>
     <button class="btn-submit" id="btnSaveDuty" onclick="saveDuty()">שמור שיבוצים</button>
     <button class="btn-cancel" onclick="closeDutyModal()">סגור</button>
   </div>
 </div>
 
+<!-- RESIDENTS MODAL -->
+<div class="dialog-overlay" id="residentsModal">
+  <div class="dialog">
+    <h2>👨‍⚕️ רשימת מתמחים</h2>
+    <p class="sub">הוסף או הסר מתמחים מהרשימה</p>
+    <div id="resList"></div>
+    <div class="add-res-row">
+      <input class="form-control" type="text" id="newResName" placeholder="שם מתמחה חדש">
+      <button class="btn-sm" onclick="addResident()">הוסף</button>
+    </div>
+    <button class="btn-submit" id="btnSaveRes" onclick="saveResidents()">שמור רשימה</button>
+    <button class="btn-cancel" onclick="closeResidentsModal()">סגור</button>
+  </div>
+</div>
+
+<!-- LOAD SETTINGS MODAL -->
+<div class="dialog-overlay" id="loadSettingsModal">
+  <div class="dialog">
+    <h2>📊 הגדרת עומסים</h2>
+    <p class="sub">הגדר כמה ביקורות ביום מגדירות כל רמת עומס, ואת הצבע המאפיין</p>
+    <div style="margin-bottom:8px;display:grid;grid-template-columns:1fr 1fr auto;gap:8px">
+      <span style="font-size:12px;font-weight:700;color:var(--slate)">רמת עומס</span>
+      <span style="font-size:12px;font-weight:700;color:var(--slate)">עד כמה ביקורות</span>
+      <span style="font-size:12px;font-weight:700;color:var(--slate)">צבע</span>
+    </div>
+    <div class="load-setting-row">
+      <label>עומס נמוך</label>
+      <input class="form-control" type="number" id="ls_low" min="1" max="20" style="padding:8px 10px">
+      <div class="color-swatch"><input type="color" id="lc_low"></div>
+    </div>
+    <div class="load-setting-row">
+      <label>עומס בינוני</label>
+      <input class="form-control" type="number" id="ls_med" min="1" max="20" style="padding:8px 10px">
+      <div class="color-swatch"><input type="color" id="lc_med"></div>
+    </div>
+    <div class="load-setting-row">
+      <label>עומס גבוה</label>
+      <input class="form-control" type="number" id="ls_high" min="1" max="20" style="padding:8px 10px">
+      <div class="color-swatch"><input type="color" id="lc_high"></div>
+    </div>
+    <div class="load-setting-row">
+      <label>עומס חריג</label>
+      <span style="font-size:12px;color:var(--slate)">מעל הגבול הגבוה</span>
+      <div class="color-swatch"><input type="color" id="lc_over"></div>
+    </div>
+    <button class="btn-submit" id="btnSaveLoad" onclick="saveLoadSettings()">שמור הגדרות</button>
+    <button class="btn-cancel" onclick="closeLoadSettingsModal()">סגור</button>
+  </div>
+</div>
+
+<!-- RANGE MODAL -->
+<div class="dialog-overlay" id="rangeModal">
+  <div class="dialog">
+    <h2>🗓 טווח זמן לביקורות</h2>
+    <p class="sub">בחר כמה שבועות קדימה להציג בדשבורד</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px" id="rangeOptions"></div>
+    <button class="btn-cancel" onclick="closeRangeModal()">סגור</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-// CONFIG
+// ─── CONFIG ────────────────────────────────────────
 const BIN_ID  = '69b2e45ab7ec241ddc625227';
 const BIN_KEY = '$2a$10$.g2GAlRZVdB6z7SS/WMrOO5rdFegQIq5EHyMyD/KhIO53S4Unl3MW';
 const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
 const TESTS = ['בדיקת רופא (ללא הרחבה)','הרחבת אישונים','OCT','Optos','שדות ראייה','RAPD','FA (אנגיוגרפיה)'];
-const THR = { low:2, medium:4, high:6 };
-const HE_DAYS = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
-const HE_MON  = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
+const HE_DAYS  = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+const HE_MON   = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
 
-// CLOUD LAYER
-let DB = { patients:[], duty:{} };
+const DEFAULT_RESIDENTS = ['איתן קפלן','גל הראל','יונתן ציטרין','ליהי בלומן','לירון נפתלי','נעמה ליפין','עדי זסלבסקי','עדן הולנדר','שני ברנבוים','שני שאוליאן'];
+const DEFAULT_LOAD = { low:2, medium:4, high:6, cLow:'#3bbf7a', cMed:'#e8742a', cHigh:'#d94040', cOver:'#1a1a1a' };
+
+// ─── DB ───────────────────────────────────────────
+let DB = { patients:[], duty:{}, residents:[], loadSettings:{}, rangeWeeks:2 };
 
 async function loadDB() {
   const r = await fetch(BIN_URL+'/latest', { headers:{'X-Master-Key':BIN_KEY} });
   if (!r.ok) throw new Error(r.status);
-  const j = await r.json();
-  DB = j.record;
-  if (!DB.patients) DB.patients = [];
-  if (!DB.duty)     DB.duty     = {};
+  DB = (await r.json()).record;
+  if (!DB.patients)     DB.patients     = [];
+  if (!DB.duty)         DB.duty         = {};
+  if (!DB.residents||!DB.residents.length) DB.residents = [...DEFAULT_RESIDENTS];
+  if (!DB.loadSettings||!DB.loadSettings.low) DB.loadSettings = {...DEFAULT_LOAD};
+  if (!DB.rangeWeeks)   DB.rangeWeeks   = 2;
 }
-
 async function saveDB() {
-  const r = await fetch(BIN_URL, {
-    method:'PUT',
+  const r = await fetch(BIN_URL, { method:'PUT',
     headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
-    body: JSON.stringify(DB)
-  });
+    body: JSON.stringify(DB) });
   if (!r.ok) throw new Error(r.status);
 }
 
-// DATE HELPERS
-function today0() { const d=new Date(); d.setHours(0,0,0,0); return d; }
-function dKey(d)  { return d.toISOString().slice(0,10); }
+// ─── DATES ────────────────────────────────────────
+function today0(){ const d=new Date(); d.setHours(0,0,0,0); return d; }
+function dKey(d){ return d.toISOString().slice(0,10); }
 function dAdd(d,n){ const r=new Date(d); r.setDate(r.getDate()+n); return r; }
-function dFull(d) { return `${d.getDate()} ${HE_MON[d.getMonth()]} ${d.getFullYear()}`; }
-function dDay(d)  { return `יום ${HE_DAYS[d.getDay()]}`; }
-function get14()  { const t=today0(); return Array.from({length:14},(_,i)=>dAdd(t,i)); }
+function dFull(d){ return `${d.getDate()} ${HE_MON[d.getMonth()]} ${d.getFullYear()}`; }
+function dDay(d){ return `יום ${HE_DAYS[d.getDay()]}`; }
+function getDates(){
+  const t=today0(), weeks=DB.rangeWeeks||2;
+  return Array.from({length:weeks*7},(_,i)=>dAdd(t,i));
+}
 
-// LOAD HELPERS
-function cnt(key) { return DB.patients.filter(p=>p.date===key).length; }
-function lClass(c){ if(c<=0)return'load-low'; if(c<=THR.low)return'load-low'; if(c<=THR.medium)return'load-medium'; if(c<=THR.high)return'load-high'; return'load-overload'; }
-function lLabel(c){ if(c===0)return'אין ביקורות'; if(c<=THR.low)return`עומס נמוך (${c})`; if(c<=THR.medium)return`עומס בינוני (${c})`; if(c<=THR.high)return`עומס גבוה (${c})`; return`עומס חריג! (${c})`; }
-function lPct(c)  { return Math.min(100,(c/6)*100); }
-function lpCls(c) { if(c<=0||c<=THR.low)return'lp-low'; if(c<=THR.medium)return'lp-medium'; if(c<=THR.high)return'lp-high'; return'lp-overload'; }
+// ─── LOAD HELPERS ─────────────────────────────────
+function LS(){ return DB.loadSettings||DEFAULT_LOAD; }
+function cnt(key){ return DB.patients.filter(p=>p.date===key).length; }
+function lLevel(c){
+  const s=LS();
+  if(c===0) return 0;
+  if(c<=s.low) return 1;
+  if(c<=s.medium) return 2;
+  if(c<=s.high) return 3;
+  return 4;
+}
+function lColor(c){
+  const s=LS(), lv=lLevel(c);
+  if(lv<=1) return s.cLow||'#3bbf7a';
+  if(lv===2) return s.cMed||'#e8742a';
+  if(lv===3) return s.cHigh||'#d94040';
+  return s.cOver||'#1a1a1a';
+}
+function lLabel(c){
+  const s=LS();
+  if(c===0) return 'אין ביקורות';
+  const lv=lLevel(c);
+  if(lv===1) return `עומס נמוך (${c})`;
+  if(lv===2) return `עומס בינוני (${c})`;
+  if(lv===3) return `עומס גבוה (${c})`;
+  return `עומס חריג! (${c})`;
+}
+function lPct(c){ const s=LS(); return Math.min(100,(c/Math.max(s.high,1))*100); }
 
-function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-// RENDER
-function render() {
-  const dates=get14(), t=today0(), tk=dKey(t);
-  const wk=dates.slice(0,7).map(dKey), ak=dates.map(dKey);
+// ─── RENDER ───────────────────────────────────────
+function render(){
+  const dates=getDates(), t=today0(), tk=dKey(t);
+  const wk=dates.slice(0,7).map(dKey), wk2=dates.slice(7,14).map(dKey);
 
   document.getElementById('totalToday').textContent = DB.patients.filter(p=>p.date===tk).length;
   document.getElementById('totalWeek').textContent  = DB.patients.filter(p=>wk.includes(p.date)).length;
-  const wk2=dates.slice(7,14).map(dKey);
   document.getElementById('totalTwo').textContent   = DB.patients.filter(p=>wk2.includes(p.date)).length;
+  document.getElementById('headerSub').textContent  = `מיון עיניים · ${DB.rangeWeeks||2} שבועות קרובים`;
 
-  // Strip
-  const strip = document.getElementById('dateStrip');
+  // Date strip
+  const strip=document.getElementById('dateStrip');
   strip.innerHTML='';
   dates.forEach(d=>{
     const k=dKey(d), c=cnt(k), isTd=(k===tk);
-    const dc=c===0?'#ddd':c<=2?'#3bbf7a':c<=4?'#e8742a':c<=6?'#d94040':'#1a1a1a';
-    const dots=c>0?Array.from({length:Math.min(c,5)},()=>`<div class="dot" style="background:${dc}"></div>`).join(''):'';
+    const col=c===0?'#ddd':lColor(c);
+    const dots=c>0?Array.from({length:Math.min(c,5)},()=>`<div class="dot" style="background:${col}"></div>`).join(''):'';
     const ch=document.createElement('div');
     ch.className='date-chip'+(isTd?' today':'');
-    ch.innerHTML=`<div class="day-name">${HE_DAYS[d.getDay()].slice(0,3)}'</div><div class="day-num">${d.getDate()}</div><div class="dot-row">${dots}</div><div class="load-mini"><div class="load-mini-fill ${lClass(c)}" style="width:${lPct(c)}%"></div></div>`;
+    ch.innerHTML=`<div class="day-name">${HE_DAYS[d.getDay()].slice(0,3)}'</div><div class="day-num">${d.getDate()}</div><div class="dot-row">${dots}</div><div class="load-mini"><div class="load-mini-fill" style="width:${lPct(c)}%;background:${col}"></div></div>`;
     ch.onclick=()=>goDay(k);
     strip.appendChild(ch);
   });
 
-  // Panels
+  // Day panels
   const panels=document.getElementById('dayPanels');
   const opens={};
   panels.querySelectorAll('.day-panel').forEach(p=>{
@@ -321,25 +471,36 @@ function render() {
     if(b&&b.classList.contains('open')) opens[p.id]=1;
   });
   panels.innerHTML='';
-  dates.forEach(d=>{
+
+  // Collect all unique dates with patients (including outside range)
+  const rangeDateKeys = new Set(dates.map(dKey));
+  const extraKeys = [...new Set(DB.patients.map(p=>p.date))].filter(k=>!rangeDateKeys.has(k) && k >= dKey(t));
+  const allDates = [...dates];
+  extraKeys.sort().forEach(k=>{ const d=new Date(k); d.setHours(12); allDates.push(d); });
+
+  allDates.forEach(d=>{
     const k=dKey(d), c=cnt(k), pts=DB.patients.filter(p=>p.date===k);
+    if(!rangeDateKeys.has(k) && c===0) return; // skip empty out-of-range days
     const duty=DB.duty[k]||null, isTd=(k===tk), open=isTd||opens[`panel-${k}`];
+    const col=lColor(c);
+
     const pHtml=pts.length===0
       ?`<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg><p>אין ביקורות מוזמנות ליום זה</p></div>`
       :pts.map(p=>`<div class="patient-card">
         <div class="pc-name">${esc(p.name)}</div>
-        <div class="pc-id">ת.ז. ${esc(p.patientId)}</div>
+        ${p.patientId?`<div class="pc-id">ת.ז. ${esc(p.patientId)}</div>`:''}
         ${p.reason?`<div class="pc-reason"><div class="reason-label">סיבת ביקורת</div>${esc(p.reason)}</div>`:''}
         ${p.tests&&p.tests.length?`<div class="pc-tests">${p.tests.map(t=>`<span class="test-tag">${esc(t)}</span>`).join('')}</div>`:''}
         <div class="pc-footer"><span class="pc-resident">הוזמן ע"י: ${esc(p.resident||'לא צוין')}</span><button class="pc-delete" onclick="delPt('${p.id}')">✕</button></div>
       </div>`).join('');
 
+    const outOfRange = !rangeDateKeys.has(k);
     const el=document.createElement('div');
     el.className='day-panel'; el.id=`panel-${k}`;
     el.innerHTML=`
-      <div class="day-panel-header" onclick="togPanel('${k}')">
+      <div class="day-panel-header" onclick="togPanel('${k}')" style="${outOfRange?'background:linear-gradient(90deg,#4a5568,#6b7280)':''}">
         <div>
-          <h3>${isTd?'📅 היום — ':''}${dDay(d)}, ${dFull(d)}</h3>
+          <h3>${isTd?'📅 היום — ':''}${outOfRange?'📌 ':''}${dDay(d)}, ${dFull(d)}${outOfRange?' <span style="font-size:11px;opacity:.7">(מחוץ לטווח)</span>':''}</h3>
           <div class="meta">${lLabel(c)}</div>
         </div>
         <div class="dph-right">
@@ -350,7 +511,7 @@ function render() {
       <div class="day-panel-body${open?' open':''}" id="body-${k}">
         <div class="load-bar-wrap">
           <div class="load-bar-label"><span>עומס צפוי</span><span>${c} ביקורות</span></div>
-          <div class="load-bar"><div class="load-bar-fill ${lClass(c)}" style="width:${lPct(c)}%"></div></div>
+          <div class="load-bar"><div class="load-bar-fill" style="width:${lPct(c)}%;background:${col}"></div></div>
         </div>
         <div class="duty-row">
           <div class="duty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" width="18" height="18"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
@@ -362,28 +523,60 @@ function render() {
   });
 }
 
-function togPanel(k) {
+function togPanel(k){
   const b=document.getElementById(`body-${k}`), t=document.getElementById(`tog-${k}`);
   t.textContent=b.classList.toggle('open')?'▲':'▼';
 }
-function goDay(k) {
-  const el=document.getElementById(`panel-${k}`);
-  if(!el) return;
+function goDay(k){
+  const el=document.getElementById(`panel-${k}`); if(!el) return;
   const b=document.getElementById(`body-${k}`);
   if(!b.classList.contains('open')){ b.classList.add('open'); document.getElementById(`tog-${k}`).textContent='▲'; }
   el.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ADD MODAL
-function openAddModal() {
-  buildTests(); buildDates();
-  ['f_name','f_id','f_reason','f_resident'].forEach(id=>document.getElementById(id).value='');
+// ─── SETTINGS MENU ────────────────────────────────
+function toggleSettings(){
+  document.getElementById('settingsMenu').classList.toggle('open');
+}
+document.addEventListener('click',function(e){
+  const menu=document.getElementById('settingsMenu');
+  if(!menu.contains(e.target)&&!e.target.closest('.btn-gear')) menu.classList.remove('open');
+});
+
+// ─── ADD MODAL ────────────────────────────────────
+function openAddModal(){
+  buildResidentSelect();
+  buildDates();
+  buildTests();
+  document.getElementById('f_name').value='';
+  document.getElementById('f_id').value='';
+  document.getElementById('f_reason').value='';
   document.getElementById('loadPreview').className='dlp';
   document.getElementById('addModal').classList.add('open');
+  document.getElementById('settingsMenu').classList.remove('open');
 }
-function closeAddModal() { document.getElementById('addModal').classList.remove('open'); }
+function closeAddModal(){ document.getElementById('addModal').classList.remove('open'); }
 
-function buildTests() {
+function buildResidentSelect(){
+  const sel=document.getElementById('f_resident');
+  sel.innerHTML='<option value="">— בחר מתמחה —</option>';
+  (DB.residents||DEFAULT_RESIDENTS).forEach(r=>{
+    const o=document.createElement('option'); o.value=r; o.textContent=r; sel.appendChild(o);
+  });
+}
+
+function buildDates(){
+  const sel=document.getElementById('f_date');
+  sel.innerHTML='<option value="">— בחר תאריך —</option>';
+  getDates().forEach(d=>{
+    const k=dKey(d), c=cnt(k);
+    const o=document.createElement('option'); o.value=k;
+    o.textContent=`${dDay(d)}, ${d.getDate()} ${HE_MON[d.getMonth()]} — ${lLabel(c)}`;
+    sel.appendChild(o);
+  });
+}
+
+function buildTests(){
   const g=document.getElementById('testsGrid'); g.innerHTML='';
   TESTS.forEach(t=>{
     const l=document.createElement('label'); l.className='test-check';
@@ -397,64 +590,138 @@ function buildTests() {
     g.appendChild(l);
   });
 }
-function buildDates() {
-  const s=document.getElementById('f_date'); s.innerHTML='<option value="">— בחר תאריך —</option>';
-  get14().forEach(d=>{
-    const k=dKey(d), c=cnt(k);
-    const o=document.createElement('option'); o.value=k;
-    o.textContent=`${dDay(d)}, ${d.getDate()} ${HE_MON[d.getMonth()]} — ${lLabel(c)}`;
-    s.appendChild(o);
-  });
-}
-function updateLoadPreview() {
+
+function updateLoadPreview(){
   const k=document.getElementById('f_date').value, pv=document.getElementById('loadPreview');
   if(!k){ pv.className='dlp'; return; }
-  const c=cnt(k); pv.className=`dlp show ${lpCls(c)}`;
+  const c=cnt(k), col=lColor(c);
+  pv.className='dlp show';
+  pv.style.background=lLevel(c)===4?col:''; pv.style.color=lLevel(c)===4?'white':'';
+  const lv=lLevel(c);
+  if(lv<=1){ pv.style.background='#edfaf3'; pv.style.color='#2d8653'; }
+  else if(lv===2){ pv.style.background='#fff1e6'; pv.style.color='#c04a00'; }
+  else if(lv===3){ pv.style.background='#fdeaea'; pv.style.color='#a80000'; }
+  else { pv.style.background='#1a1a1a'; pv.style.color='white'; }
   pv.innerHTML=`<strong>${lLabel(c)}</strong> ביום שנבחר`;
 }
 
-async function submitPatient() {
-  const date=document.getElementById('f_date').value;
+async function submitPatient(){
+  const resident=document.getElementById('f_resident').value;
+  const date=document.getElementById('f_date').value || _calSelectedKey;
   const name=document.getElementById('f_name').value.trim();
   const pid=document.getElementById('f_id').value.trim();
   const reason=document.getElementById('f_reason').value.trim();
-  const resident=document.getElementById('f_resident').value.trim();
   const tests=[...document.querySelectorAll('#testsGrid input:checked')].map(i=>i.value);
-  if(!date||!name){ toast('יש למלא תאריך ושם מטופל'); return; }
+  if(!resident){ toast('יש לבחור מתמחה מזמין'); return; }
+  if(!date){ toast('יש לבחור תאריך ביקורת'); return; }
+  if(!name){ toast('יש למלא שם מטופל'); return; }
   const btn=document.getElementById('btnSubmit');
   btn.disabled=true; btn.textContent='שומר…';
-  try {
+  try{
     DB.patients.push({id:Date.now().toString(),date,name,patientId:pid,reason,resident,tests,created:new Date().toISOString()});
     await saveDB();
-    closeAddModal(); render();
+    closeAddModal(); _calSelectedKey=null; render();
     toast(`✓ ${name} הוזמן לביקורת בהצלחה`);
     setTimeout(()=>goDay(date),300);
-  } catch(e){ DB.patients.pop(); toast('שגיאה בשמירה — בדוק חיבור לאינטרנט'); }
+  } catch(e){ DB.patients.pop(); toast('שגיאה בשמירה — בדוק חיבור'); }
   finally{ btn.disabled=false; btn.textContent='שמור ביקורת'; }
 }
 
-async function delPt(id) {
+async function delPt(id){
   if(!confirm('למחוק ביקורת זו?')) return;
   const prev=[...DB.patients]; DB.patients=DB.patients.filter(p=>p.id!==id);
   try{ await saveDB(); render(); toast('הביקורת נמחקה'); }
   catch(e){ DB.patients=prev; toast('שגיאה במחיקה'); }
 }
 
-// DUTY MODAL
-function openDutyModal() {
-  const list=document.getElementById('dutyList'); list.innerHTML='';
-  get14().forEach(d=>{
+// ─── CALENDAR MODAL ───────────────────────────────
+let _calYear, _calMonth, _calSelectedKey=null;
+
+function openCalModal(){
+  const t=today0(); _calYear=t.getFullYear(); _calMonth=t.getMonth();
+  _calSelectedKey=null;
+  renderCal();
+  document.getElementById('calModal').classList.add('open');
+}
+function closeCalModal(){ document.getElementById('calModal').classList.remove('open'); }
+
+function renderCal(){
+  const t=today0(), tk=dKey(t);
+  document.getElementById('calTitle').textContent=`${HE_MON[_calMonth]} ${_calYear}`;
+  const grid=document.getElementById('calGrid');
+  grid.innerHTML='';
+  // Headers — Sun first for Hebrew calendar
+  ['א','ב','ג','ד','ה','ו','ש'].forEach(h=>{
+    const el=document.createElement('div'); el.className='cal-header'; el.textContent=h; grid.appendChild(el);
+  });
+  const firstDay=new Date(_calYear,_calMonth,1).getDay();
+  for(let i=0;i<firstDay;i++){
+    const el=document.createElement('div'); el.className='cal-day empty'; grid.appendChild(el);
+  }
+  const daysInMonth=new Date(_calYear,_calMonth+1,0).getDate();
+  for(let d=1;d<=daysInMonth;d++){
+    const date=new Date(_calYear,_calMonth,d,12);
+    const k=dKey(date);
+    const isPast=k<tk;
+    const c=cnt(k);
+    const col=c>0?lColor(c):'transparent';
+    const el=document.createElement('div');
+    el.className='cal-day'+(k===tk?' today':'')+(isPast?' past':'')+(k===_calSelectedKey?' selected':'');
+    el.innerHTML=`${d}<span class="cal-dot" style="background:${col}"></span>`;
+    if(!isPast) el.onclick=()=>selectCalDay(k,d);
+    grid.appendChild(el);
+  }
+  const info=document.getElementById('calSelectedInfo');
+  if(_calSelectedKey){
+    const sd=new Date(_calSelectedKey+'T12:00'); const c=cnt(_calSelectedKey);
+    info.textContent=`${dDay(sd)}, ${dFull(sd)} — ${lLabel(c)}`;
+    info.style.color=lLevel(c)>=3?'#a80000':lLevel(c)===2?'#c04a00':'#2d8653';
+  } else {
+    info.textContent='לא נבחר תאריך'; info.style.color='';
+  }
+}
+
+function selectCalDay(k,d){
+  _calSelectedKey=k; renderCal();
+}
+function calPrevMonth(){
+  _calMonth--; if(_calMonth<0){_calMonth=11;_calYear--;} renderCal();
+}
+function calNextMonth(){
+  _calMonth++; if(_calMonth>11){_calMonth=0;_calYear++;} renderCal();
+}
+function confirmCalDate(){
+  if(!_calSelectedKey){ toast('בחר תאריך'); return; }
+  // Set the select to show custom date
+  const sel=document.getElementById('f_date');
+  // Check if this date is already in the select options
+  let found=false;
+  for(let o of sel.options){ if(o.value===_calSelectedKey){sel.value=_calSelectedKey;found=true;break;} }
+  if(!found){
+    // Add as special option
+    const sd=new Date(_calSelectedKey+'T12:00'), c=cnt(_calSelectedKey);
+    const opt=document.createElement('option'); opt.value=_calSelectedKey;
+    opt.textContent=`${dDay(sd)}, ${sd.getDate()} ${HE_MON[sd.getMonth()]} ${sd.getFullYear()} — ${lLabel(c)}`;
+    sel.appendChild(opt); sel.value=_calSelectedKey;
+  }
+  updateLoadPreview();
+  closeCalModal();
+}
+
+// ─── DUTY MODAL ───────────────────────────────────
+function openDutyModal(){
+  const dates=getDates(), list=document.getElementById('dutyList'); list.innerHTML='';
+  document.getElementById('settingsMenu').classList.remove('open');
+  dates.forEach(d=>{
     const k=dKey(d), row=document.createElement('div'); row.className='duty-entry';
     row.innerHTML=`<label>${HE_DAYS[d.getDay()].slice(0,3)} ${d.getDate()}/${d.getMonth()+1}</label><input class="form-control" type="text" data-key="${k}" value="${esc(DB.duty[k]||'')}" placeholder="שם מתמחה">`;
     list.appendChild(row);
   });
   document.getElementById('dutyModal').classList.add('open');
 }
-function closeDutyModal() { document.getElementById('dutyModal').classList.remove('open'); }
-
-async function saveDuty() {
-  const btn=document.getElementById('btnSaveDuty');
-  btn.disabled=true; btn.textContent='שומר…';
+function closeDutyModal(){ document.getElementById('dutyModal').classList.remove('open'); }
+async function saveDuty(){
+  const btn=document.getElementById('btnSaveDuty'); btn.disabled=true; btn.textContent='שומר…';
   const prev={...DB.duty}; DB.duty={};
   document.querySelectorAll('#dutyList input').forEach(i=>{ if(i.value.trim()) DB.duty[i.dataset.key]=i.value.trim(); });
   try{ await saveDB(); closeDutyModal(); render(); toast('✓ שיבוצי תורנות עודכנו'); }
@@ -462,138 +729,155 @@ async function saveDuty() {
   finally{ btn.disabled=false; btn.textContent='שמור שיבוצים'; }
 }
 
-// TOAST
-function toast(msg) {
+// ─── RESIDENTS MODAL ──────────────────────────────
+let _tempResidents=[];
+function openResidentsModal(){
+  _tempResidents=[...(DB.residents||DEFAULT_RESIDENTS)];
+  renderResList();
+  document.getElementById('newResName').value='';
+  document.getElementById('residentsModal').classList.add('open');
+  document.getElementById('settingsMenu').classList.remove('open');
+}
+function closeResidentsModal(){ document.getElementById('residentsModal').classList.remove('open'); }
+function renderResList(){
+  const list=document.getElementById('resList'); list.innerHTML='';
+  _tempResidents.forEach((r,i)=>{
+    const el=document.createElement('div'); el.className='res-item';
+    el.innerHTML=`<span>${esc(r)}</span><button class="res-delete" onclick="removeRes(${i})">✕</button>`;
+    list.appendChild(el);
+  });
+}
+function removeRes(i){ _tempResidents.splice(i,1); renderResList(); }
+function addResident(){
+  const inp=document.getElementById('newResName'), name=inp.value.trim();
+  if(!name) return;
+  _tempResidents.push(name);
+  _tempResidents.sort((a,b)=>a.localeCompare(b,'he'));
+  renderResList(); inp.value='';
+}
+async function saveResidents(){
+  const btn=document.getElementById('btnSaveRes'); btn.disabled=true; btn.textContent='שומר…';
+  const prev=[...DB.residents]; DB.residents=[..._tempResidents];
+  try{ await saveDB(); closeResidentsModal(); toast('✓ רשימת המתמחים עודכנה'); }
+  catch(e){ DB.residents=prev; toast('שגיאה בשמירה'); }
+  finally{ btn.disabled=false; btn.textContent='שמור רשימה'; }
+}
+
+// ─── LOAD SETTINGS MODAL ─────────────────────────
+function openLoadSettingsModal(){
+  const s=LS();
+  document.getElementById('ls_low').value  = s.low;
+  document.getElementById('ls_med').value  = s.medium;
+  document.getElementById('ls_high').value = s.high;
+  document.getElementById('lc_low').value  = s.cLow  ||'#3bbf7a';
+  document.getElementById('lc_med').value  = s.cMed  ||'#e8742a';
+  document.getElementById('lc_high').value = s.cHigh ||'#d94040';
+  document.getElementById('lc_over').value = s.cOver ||'#1a1a1a';
+  document.getElementById('loadSettingsModal').classList.add('open');
+  document.getElementById('settingsMenu').classList.remove('open');
+}
+function closeLoadSettingsModal(){ document.getElementById('loadSettingsModal').classList.remove('open'); }
+async function saveLoadSettings(){
+  const btn=document.getElementById('btnSaveLoad'); btn.disabled=true; btn.textContent='שומר…';
+  const prev={...DB.loadSettings};
+  DB.loadSettings={
+    low:  parseInt(document.getElementById('ls_low').value)||2,
+    medium:parseInt(document.getElementById('ls_med').value)||4,
+    high: parseInt(document.getElementById('ls_high').value)||6,
+    cLow: document.getElementById('lc_low').value,
+    cMed: document.getElementById('lc_med').value,
+    cHigh:document.getElementById('lc_high').value,
+    cOver:document.getElementById('lc_over').value,
+  };
+  try{ await saveDB(); closeLoadSettingsModal(); render(); toast('✓ הגדרות עומסים עודכנו'); }
+  catch(e){ DB.loadSettings=prev; toast('שגיאה בשמירה'); }
+  finally{ btn.disabled=false; btn.textContent='שמור הגדרות'; }
+}
+
+// ─── RANGE MODAL ──────────────────────────────────
+function openRangeModal(){
+  const opts=document.getElementById('rangeOptions'); opts.innerHTML='';
+  [1,2,3,4].forEach(w=>{
+    const btn=document.createElement('button');
+    const active=(DB.rangeWeeks||2)===w;
+    btn.style.cssText=`padding:16px;border-radius:12px;border:2px solid ${active?'var(--navy)':'var(--border)'};background:${active?'var(--navy)':'white'};color:${active?'white':'var(--navy)'};font-family:'Heebo',sans-serif;font-size:15px;font-weight:700;cursor:pointer`;
+    btn.textContent=`${w} ${w===1?'שבוע':'שבועות'}`;
+    btn.onclick=()=>setRange(w);
+    opts.appendChild(btn);
+  });
+  document.getElementById('rangeModal').classList.add('open');
+  document.getElementById('settingsMenu').classList.remove('open');
+}
+function closeRangeModal(){ document.getElementById('rangeModal').classList.remove('open'); }
+async function setRange(w){
+  DB.rangeWeeks=w;
+  try{ await saveDB(); closeRangeModal(); render(); toast(`✓ טווח הוגדר ל-${w} ${w===1?'שבוע':'שבועות'}`); }
+  catch(e){ toast('שגיאה בשמירה'); }
+}
+
+// ─── TOAST ────────────────────────────────────────
+function toast(msg){
   const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2800);
 }
 
-// Overlay close
-document.getElementById('addModal').addEventListener('click',e=>{ if(e.target.id==='addModal') closeAddModal(); });
-document.getElementById('dutyModal').addEventListener('click',e=>{ if(e.target.id==='dutyModal') closeDutyModal(); });
+// Close modals on overlay click
+['addModal','calModal','dutyModal','residentsModal','loadSettingsModal','rangeModal'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',function(e){
+    if(e.target===this) this.classList.remove('open');
+  });
+});
 
-// INIT
+// ─── INIT ─────────────────────────────────────────
 (async()=>{
-  try {
-    await loadDB();
-  } catch(e) {
-    // Bin might be uninitialised — try to write initial data
-    try { await saveDB(); }
-    catch(e2) {
-      document.getElementById('loadMsg').textContent='שגיאה בחיבור לענן. בדוק אינטרנט ורענן.';
-      return;
+  try{ await loadDB(); }
+  catch(e){
+    try{ await saveDB(); } catch(e2){
+      document.getElementById('loadMsg').textContent='שגיאה בחיבור לענן. בדוק אינטרנט ורענן.'; return;
     }
   }
   document.getElementById('loadingScreen').style.display='none';
   render();
-  // Refresh every 60s to pick up other users' changes
   setInterval(async()=>{ try{ await loadDB(); render(); }catch(e){} }, 60000);
 })();
 </script>
 
 <script>
-// ===================================================
-// PWA — Generate icon + manifest dynamically
-// ===================================================
-(function() {
-  function roundRect(ctx, x, y, w, h, r) {
-    r = r || 0;
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.lineTo(x + w - r, y);
-    ctx.quadraticCurveTo(x+w, y, x+w, y+r);
-    ctx.lineTo(x+w, y+h-r);
-    ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
-    ctx.lineTo(x+r, y+h);
-    ctx.quadraticCurveTo(x, y+h, x, y+h-r);
-    ctx.lineTo(x, y+r);
-    ctx.quadraticCurveTo(x, y, x+r, y);
-    ctx.closePath();
+// PWA Icon + Manifest
+(function(){
+  function roundRect(ctx,x,y,w,h,r){
+    ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+    ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+    ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
   }
-
-  const S = 512;
-  const cv = document.createElement('canvas');
-  cv.width = cv.height = S;
-  const ctx = cv.getContext('2d');
-
-  // Background
-  const g = ctx.createLinearGradient(0,0,S,S);
-  g.addColorStop(0,'#0d2340'); g.addColorStop(1,'#1a4a7a');
-  ctx.fillStyle = g;
-  roundRect(ctx, 0, 0, S, S, S*0.20); ctx.fill();
-
-  // ── Calendar (upper-left area) ──
-  const CX=S*0.36, CY=S*0.36, CW=S*0.48, CH=S*0.42, CR=S*0.05;
-  // body
-  ctx.fillStyle='rgba(255,255,255,0.10)';
-  ctx.strokeStyle='rgba(255,255,255,0.88)'; ctx.lineWidth=S*0.034;
-  roundRect(ctx, CX-CW/2, CY-CH/2, CW, CH, CR); ctx.fill(); ctx.stroke();
-  // header
-  ctx.save();
-  ctx.beginPath();
-  roundRect(ctx, CX-CW/2, CY-CH/2, CW, CH*0.28, CR);
-  ctx.clip();
-  ctx.fillStyle='#2e7fc9';
-  ctx.fillRect(CX-CW/2, CY-CH/2, CW, CH*0.28);
-  ctx.restore();
-  // rings
-  ctx.strokeStyle='white'; ctx.lineWidth=S*0.028; ctx.lineCap='round';
-  [-0.18,0.18].forEach(function(off){
-    var rx=CX+off*CW, ry=CY-CH/2;
-    ctx.beginPath(); ctx.moveTo(rx,ry-S*0.04); ctx.lineTo(rx,ry+S*0.04); ctx.stroke();
-  });
-  // grid dots
+  var S=512,cv=document.createElement('canvas');cv.width=cv.height=S;
+  var ctx=cv.getContext('2d');
+  var g=ctx.createLinearGradient(0,0,S,S);g.addColorStop(0,'#0d2340');g.addColorStop(1,'#1a4a7a');
+  ctx.fillStyle=g;roundRect(ctx,0,0,S,S,S*0.20);ctx.fill();
+  var CX=S*0.36,CY=S*0.36,CW=S*0.48,CH=S*0.42,CR=S*0.05;
+  ctx.fillStyle='rgba(255,255,255,0.10)';ctx.strokeStyle='rgba(255,255,255,0.88)';ctx.lineWidth=S*0.034;
+  roundRect(ctx,CX-CW/2,CY-CH/2,CW,CH,CR);ctx.fill();ctx.stroke();
+  ctx.save();ctx.beginPath();roundRect(ctx,CX-CW/2,CY-CH/2,CW,CH*0.28,CR);ctx.clip();
+  ctx.fillStyle='#2e7fc9';ctx.fillRect(CX-CW/2,CY-CH/2,CW,CH*0.28);ctx.restore();
+  ctx.strokeStyle='white';ctx.lineWidth=S*0.028;ctx.lineCap='round';
+  [-0.18,0.18].forEach(function(off){var rx=CX+off*CW,ry=CY-CH/2;ctx.beginPath();ctx.moveTo(rx,ry-S*0.04);ctx.lineTo(rx,ry+S*0.04);ctx.stroke();});
   ctx.fillStyle='rgba(255,255,255,0.80)';
-  var dr=S*0.025, gx0=CX-CW*0.28, gy0=CY-CH*0.04, gsx=CW*0.28, gsy=CH*0.27;
-  [[0,1],[0,2],[1,0],[1,1],[1,2]].forEach(function(rc){
-    ctx.beginPath(); ctx.arc(gx0+rc[1]*gsx, gy0+rc[0]*gsy, dr, 0, Math.PI*2); ctx.fill();
-  });
-
-  // ── Eye (lower-right area) ──
-  var EX=S*0.63, EY=S*0.66, EW=S*0.50, EH=S*0.20;
-  // lids
-  ctx.strokeStyle='white'; ctx.lineWidth=S*0.036; ctx.lineJoin='round';
-  ctx.beginPath();
-  ctx.moveTo(EX-EW/2,EY);
-  ctx.bezierCurveTo(EX-EW/2,EY-EH*1.1, EX+EW/2,EY-EH*1.1, EX+EW/2,EY);
-  ctx.bezierCurveTo(EX+EW/2,EY+EH*1.1, EX-EW/2,EY+EH*1.1, EX-EW/2,EY);
-  ctx.closePath(); ctx.stroke();
-  // iris
-  ctx.beginPath(); ctx.arc(EX,EY,EH*0.75,0,Math.PI*2);
-  ctx.fillStyle='#2e7fc9'; ctx.fill();
-  ctx.strokeStyle='white'; ctx.lineWidth=S*0.028; ctx.stroke();
-  // pupil
-  ctx.beginPath(); ctx.arc(EX,EY,EH*0.34,0,Math.PI*2);
-  ctx.fillStyle='#0a1a30'; ctx.fill();
-  // shine
-  ctx.beginPath(); ctx.arc(EX+EH*0.24,EY-EH*0.24,EH*0.13,0,Math.PI*2);
-  ctx.fillStyle='rgba(255,255,255,0.85)'; ctx.fill();
-
-  var iconUrl = cv.toDataURL('image/png');
-
-  // Apple touch icon
-  var ai=document.getElementById('appleIcon');
-  if(ai) ai.href=iconUrl;
-
-  // Web manifest (blob URL)
-  var manifest={
-    name:'ביקורות מיון עיניים',
-    short_name:'מיון עיניים',
-    description:'ניהול ביקורות מתוכננות במיון עיניים',
-    start_url:'./',
-    display:'standalone',
-    background_color:'#0d2340',
-    theme_color:'#0d2340',
-    orientation:'portrait',
-    lang:'he',
-    icons:[
-      {src:iconUrl,sizes:'512x512',type:'image/png',purpose:'any maskable'},
-      {src:iconUrl,sizes:'192x192',type:'image/png',purpose:'any maskable'}
-    ]
-  };
+  var dr=S*0.025,gx0=CX-CW*0.28,gy0=CY-CH*0.04,gsx=CW*0.28,gsy=CH*0.27;
+  [[0,1],[0,2],[1,0],[1,1],[1,2]].forEach(function(rc){ctx.beginPath();ctx.arc(gx0+rc[1]*gsx,gy0+rc[0]*gsy,dr,0,Math.PI*2);ctx.fill();});
+  var EX=S*0.63,EY=S*0.66,EW=S*0.50,EH=S*0.20;
+  ctx.strokeStyle='white';ctx.lineWidth=S*0.036;ctx.beginPath();
+  ctx.moveTo(EX-EW/2,EY);ctx.bezierCurveTo(EX-EW/2,EY-EH*1.1,EX+EW/2,EY-EH*1.1,EX+EW/2,EY);
+  ctx.bezierCurveTo(EX+EW/2,EY+EH*1.1,EX-EW/2,EY+EH*1.1,EX-EW/2,EY);ctx.closePath();ctx.stroke();
+  ctx.beginPath();ctx.arc(EX,EY,EH*0.75,0,Math.PI*2);ctx.fillStyle='#2e7fc9';ctx.fill();
+  ctx.strokeStyle='white';ctx.lineWidth=S*0.028;ctx.stroke();
+  ctx.beginPath();ctx.arc(EX,EY,EH*0.34,0,Math.PI*2);ctx.fillStyle='#0a1a30';ctx.fill();
+  ctx.beginPath();ctx.arc(EX+EH*0.24,EY-EH*0.24,EH*0.13,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,0.85)';ctx.fill();
+  var iconUrl=cv.toDataURL('image/png');
+  var ai=document.getElementById('appleIcon');if(ai)ai.href=iconUrl;
+  var manifest={name:'ביקורות מיון עיניים',short_name:'מיון עיניים',description:'ניהול ביקורות מתוכננות במיון עיניים',start_url:'./',display:'standalone',background_color:'#0d2340',theme_color:'#0d2340',orientation:'portrait',lang:'he',icons:[{src:iconUrl,sizes:'512x512',type:'image/png',purpose:'any maskable'}]};
   var blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
-  var ml=document.getElementById('pwaManifest');
-  if(ml) ml.href=URL.createObjectURL(blob);
+  var ml=document.getElementById('pwaManifest');if(ml)ml.href=URL.createObjectURL(blob);
 })();
 </script>
 </body>
