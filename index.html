@@ -106,10 +106,10 @@ main{max-width:900px;margin:0 auto;padding:18px 14px 80px}
 /* MODALS — bottom sheet */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal{background:white;border-radius:22px 22px 0 0;padding:24px 20px 32px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;transform:translateY(50px);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:0 -8px 40px rgba(0,0,0,.2)}
+.modal{background:white;border-radius:22px 22px 0 0;padding:14px 16px 20px;width:100%;max-width:600px;max-height:96vh;overflow-y:auto;transform:translateY(50px);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:0 -8px 40px rgba(0,0,0,.2)}
 .modal-overlay.open .modal{transform:translateY(0)}
-.modal h2{font-size:18px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px}
-.modal-drag{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 20px}
+.modal h2{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.modal-drag{width:36px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 10px}
 
 /* MODALS — center dialog */
 .dialog-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;padding:16px}
@@ -128,22 +128,22 @@ main{max-width:900px;margin:0 auto;padding:18px 14px 80px}
 .sm-item .sm-icon{font-size:18px;width:24px;text-align:center}
 
 /* FORM */
-.form-group{margin-bottom:16px}
-.form-group label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.form-group{margin-bottom:9px}
+.form-group label{display:block;font-size:12px;font-weight:600;color:var(--navy);margin-bottom:3px}
 .form-group label span{color:var(--orange)}
-.form-control{width:100%;border:2px solid var(--border);border-radius:10px;padding:11px 13px;font-family:'Heebo',sans-serif;font-size:14px;color:var(--navy);outline:none;transition:border-color .2s;background:white;-webkit-appearance:none}
+.form-control{width:100%;border:2px solid var(--border);border-radius:10px;padding:8px 11px;font-family:'Heebo',sans-serif;font-size:14px;color:var(--navy);outline:none;transition:border-color .2s;background:white;-webkit-appearance:none}
 .form-control:focus{border-color:var(--sky)}
-.dlp{margin-top:6px;font-size:12px;padding:6px 10px;border-radius:8px;display:none}
+.dlp{margin-top:3px;font-size:11px;padding:4px 9px;border-radius:7px;display:none}
 .dlp.show{display:block}
 .dlp.lp-low{background:#edfaf3;color:#2d8653}
 .dlp.lp-medium{background:#fff1e6;color:#c04a00}
 .dlp.lp-high{background:#fdeaea;color:#a80000}
 .dlp.lp-overload{background:#1a1a1a;color:#fff}
-.tests-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.test-check{display:flex;align-items:center;gap:8px;border:2px solid var(--border);border-radius:10px;padding:9px 12px;cursor:pointer;transition:all .15s;font-size:13px;font-weight:500;user-select:none}
+  .tests-grid{display:grid;grid-template-columns:1fr;gap:4px}
+  .test-check{display:flex;align-items:center;gap:8px;border:1.5px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer;transition:all .15s;font-size:13px;font-weight:500;user-select:none}
 .test-check input{display:none}
 .test-check.checked{border-color:var(--sky);background:var(--ice);color:var(--sky)}
-.cb-box{width:18px;height:18px;border:2px solid var(--border);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .15s}
+.cb-box{width:16px;height:16px;border:2px solid var(--border);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .15s}
 .test-check.checked .cb-box{background:var(--sky);border-color:var(--sky);color:white}
 
 /* DATE PICKER (custom calendar) */
@@ -174,16 +174,16 @@ main{max-width:900px;margin:0 auto;padding:18px 14px 80px}
 input[type=color]{width:100%;height:100%;border:none;padding:0;cursor:pointer;background:none}
 
 /* BTNS */
-.btn-submit{width:100%;background:linear-gradient(135deg,var(--blue) 0%,var(--sky) 100%);color:white;border:none;border-radius:12px;padding:14px;font-family:'Heebo',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px;transition:opacity .2s}
+.btn-submit{width:100%;background:linear-gradient(135deg,var(--blue) 0%,var(--sky) 100%);color:white;border:none;border-radius:12px;padding:11px;font-family:'Heebo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:5px;transition:opacity .2s}
 .btn-submit:disabled{opacity:.6;cursor:not-allowed}
-.btn-cancel{width:100%;background:var(--fog);color:var(--gray);border:none;border-radius:12px;padding:12px;font-family:'Heebo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-top:10px}
+.btn-cancel{width:100%;background:var(--fog);color:var(--gray);border:none;border-radius:12px;padding:9px;font-family:'Heebo',sans-serif;font-size:13px;font-weight:600;cursor:pointer;margin-top:5px}
 .btn-sm{background:var(--sky);color:white;border:none;border-radius:8px;padding:9px 14px;font-family:'Heebo',sans-serif;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
 
 /* TOAST */
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:white;padding:12px 22px;border-radius:30px;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.3);z-index:999;transition:transform .3s,opacity .3s;opacity:0;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
-@media(min-width:600px){main{padding:24px 24px 80px}.tests-grid{grid-template-columns:1fr 1fr 1fr}}
+@media(min-width:600px){main{padding:24px 24px 80px}.tests-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -259,7 +259,7 @@ input[type=color]{width:100%;height:100%;border:none;padding:0;cursor:pointer;ba
     </div>
     <div class="form-group">
       <label>סיבת הביקורת</label>
-      <textarea class="form-control" id="f_reason" rows="2" placeholder="תיאור קצר של הפתולוגיה / הסיבה"></textarea>
+      <textarea class="form-control" id="f_reason" rows="1" placeholder="תיאור קצר" style="resize:none;overflow:hidden" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
     </div>
     <div class="form-group">
       <label>בדיקות נדרשות <span style="color:var(--slate);font-weight:400">(לא חובה)</span></label>
