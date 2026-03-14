@@ -494,7 +494,7 @@ function render(){
   allDates.forEach(d=>{
     const k=dKey(d), c=cnt(k), pts=DB.patients.filter(p=>p.date===k);
     if(!rangeDateKeys.has(k) && c===0) return; // skip empty out-of-range days
-    const duty=DB.duty[k]||null, isTd=(k===tk), open=isTd||opens[`panel-${k}`];
+    const duty=DB.duty[k]||null, isTd=(k===tk), open=!!opens[`panel-${k}`];
     const col=lColor(c);
 
     const pHtml=pts.length===0
